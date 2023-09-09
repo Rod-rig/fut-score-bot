@@ -1,0 +1,101 @@
+[
+  {
+    "id": 39494453,
+    "date": "12.09.2023",
+    "start_at": "21:45",
+    "tournament": "Euro 2024. Qualifying",
+    "home": "Italy",
+    "away": "Ukraine",
+    "country": "Europe",
+    "flagHome": "\uD83C\uDDEE\uD83C\uDDF9",
+    "flagAway": "\uD83C\uDDFA\uD83C\uDDE6",
+    "odds": [
+      {
+        "type": "1X2",
+        "coef": [
+          {
+            "name": "1",
+            "value": 1.49
+          },
+          {
+            "name": "X",
+            "value": 4.4
+          },
+          {
+            "name": "2",
+            "value": 7.7
+          }
+        ]
+      },
+      {
+        "type": "score",
+        "coef": [
+          {
+            "name": "0:0",
+            "value": 8.5
+          },
+          {
+            "name": "1:1",
+            "value": 8.2
+          },
+          {
+            "name": "2:2",
+            "value": 23
+          },
+          {
+            "name": "1:0",
+            "value": 5.5
+          },
+          {
+            "name": "2:0",
+            "value": 5.7
+          },
+          {
+            "name": "3:0",
+            "value": 9.1
+          },
+          {
+            "name": "2:1",
+            "value": 8.6
+          },
+          {
+            "name": "3:1",
+            "value": 13
+          },
+          {
+            "name": "3:2",
+            "value": 40
+          },
+          {
+            "name": "0:1",
+            "value": 15
+          },
+          {
+            "name": "0:2",
+            "value": 43
+          },
+          {
+            "name": "0:3",
+            "value": 100
+          },
+          {
+            "name": "1:2",
+            "value": 23
+          },
+          {
+            "name": "1:3",
+            "value": 100
+          },
+          {
+            "name": "2:3",
+            "value": 100
+          },
+          {
+            "name": "Any other",
+            "value": 5.9
+          }
+        ]
+      }
+    ]
+  }
+]
