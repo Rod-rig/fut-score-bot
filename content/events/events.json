@@ -544,5 +544,45 @@
         ]
       }
     ]
+  },
+  {
+    "id": 39491213,
+    "date": "09.09.2023",
+    "start_at": "21:45",
+    "tournament": "Euro 2024. Qualifying",
+    "home": "Ukraine",
+    "away": "England",
+    "country": "Europe",
+    "flagHome": "\uD83C\uDDFA\uD83C\uDDE6",
+    "flagAway": "\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F",
+    "score": "1:1",
+    "odds": [
+      {
+        "type": "1X2",
+        "coef": [
+          {
+            "name": "1",
+            "value": 8.2
+          },
+          {
+            "name": "X",
+            "value": 4.4
+          },
+          {
+            "name": "2",
+            "value": 1.5
+          }
+        ]
+      },
+      {
+        "type": "score",
+        "coef": [
+          {
+            "name": "1:1",
+            "value": 8.5
+          }
+        ]
+      }
+    ]
   }
 ]

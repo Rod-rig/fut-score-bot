@@ -1,14 +1,11 @@
 import express from "express";
-import { readFile } from "fs/promises";
+import {matches} from "../content/events/matches.js";
 
 export const startServer = async () => {
   const app = express();
-  const json = JSON.parse(
-    await readFile(new URL("../content/events/matches.json", import.meta.url))
-  );
 
   app.get("/matches", function (req, res) {
-    res.send(json);
+    res.send(matches);
   });
 
   app.listen(3000);
