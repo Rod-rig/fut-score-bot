@@ -8,5 +8,5 @@ export const startServer = async () => {
     res.send(matches);
   });
 
-  app.listen(3000);
+  app.listen(process.env.PORT);
 };
