@@ -1,7 +1,7 @@
 import express from "express";
 import {matches} from "../content/events/matches.js";
 
-export const startServer = async () => {
+export const startServer = () => {
   const app = express();
 
   app.get("/matches", function (req, res) {

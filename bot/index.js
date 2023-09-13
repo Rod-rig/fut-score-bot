@@ -82,15 +82,15 @@ export const startBot = () => {
         process.env.MY_CHAT_ID,
         `✅ ${JSON.stringify(msg.chat)}`
       );
-      // } else if (msg.text === "/bet") {
-      //   await bot.sendMessage(msg.chat.id, content.tech_works);
-    } else if (msg.text === "/bet") {
-      const matches = await fetchMatches();
-      await bot.sendMessage(
-        msg.chat.id,
-        content.bet,
-        matchesToButtons(matches)
-      );
+      } else if (msg.text === "/bet") {
+        await bot.sendMessage(msg.chat.id, content.tech_works);
+    // } else if (msg.text === "/bet") {
+    //   const matches = await fetchMatches();
+    //   await bot.sendMessage(
+    //     msg.chat.id,
+    //     content.bet,
+    //     matchesToButtons(matches)
+    //   );
     } else if (msg.text === "/total_results") {
       const results = await fetchResults(msg.chat.id);
       await bot.sendMessage(msg.chat.id, results, {

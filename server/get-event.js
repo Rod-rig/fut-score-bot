@@ -48,7 +48,7 @@ const transformData = (info, odds) => {
 };
 
 const getEventInfo = () =>
-  fetch(`${process.env.API_URL}/frontend_api2/`, {
+  fetch(`https://www.favbet.ua/frontend_api2/`, {
     method: "POST",
     body: JSON.stringify({
       jsonrpc: "2.0",
@@ -66,7 +66,7 @@ const getEventInfo = () =>
   }).then((res) => res.json());
 
 const getEventOdds = () =>
-  fetch(`${process.env.API_URL}/frontend_api2/`, {
+  fetch(`https://www.favbet.ua/frontend_api2/`, {
     method: "POST",
     body: JSON.stringify({
       jsonrpc: "2.0",
