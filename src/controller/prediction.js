@@ -8,32 +8,59 @@ class PredictionController {
     res.send(predictions);
   }
 
+  async getPredictionById(req, res) {
+    try {
+      const prediction = await prisma.prediction.findUnique({
+        where: {
+          userId_eventId: {
+            userId: parseInt(req.body.userId),
+            eventId: parseInt(req.body.eventId),
+          },
+        },
+        include: {
+          event: true,
+        },
+      });
+      res.json(prediction);
+    } catch (error) {
+      res.status(404).json(null);
+    }
+  }
+
   async createPrediction(req, res) {
-    await prisma.prediction.create({
-      data: {
-        value: req.body.value,
-        userId: req.body.userId,
-        eventId: req.body.eventId,
-      },
-    });
-    res.status(200);
-    res.send("OK");
+    try {
+      await prisma.prediction.create({
+        data: {
+          value: req.body.value,
+          userId: parseInt(req.body.userId),
+          eventId: parseInt(req.body.eventId),
+        },
+      });
+      res.status(200).json("OK");
+    } catch (error) {
+      console.log(error);
+      res.status(404).json(null);
+    }
   }
 
   async updatePrediction(req, res) {
-    await prisma.prediction.update({
-      where: {
-        userId_eventId: {
-          userId: req.body.userId,
-          eventId: req.body.eventId,
+    try {
+      await prisma.prediction.update({
+        where: {
+          userId_eventId: {
+            userId: parseInt(req.body.userId),
+            eventId: parseInt(req.body.eventId),
+          },
         },
-      },
-      data: {
-        value: req.body.value,
-      },
-    });
-    res.status(200);
-    res.send("OK");
+        data: {
+          value: req.body.value,
+        },
+      });
+      res.status(200).json("OK");
+    } catch (error) {
+      console.log(error);
+      res.status(404).json(null);
+    }
   }
 }
 

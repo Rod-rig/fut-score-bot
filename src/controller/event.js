@@ -13,6 +13,9 @@ class EventController {
       where: {
         status: "NOT_STARTED",
       },
+      include: {
+        odd: true,
+      },
     });
     res.send(events);
   }

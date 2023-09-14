@@ -7,7 +7,7 @@ export const matchesToButtons = (events) => {
     arr.push([
       {
         text: showPrettyMatch(e),
-        callback_data: `${prefixes.match}_${index}`,
+        callback_data: `${prefixes.match}_${e.id}`,
       },
     ]);
   });
