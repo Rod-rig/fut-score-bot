@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 class UserController {
   async createUser(req, res) {
     try {
-      console.log(req.body);
       await prisma.user.create({
         data: {
           id: parseInt(req.body.id),
