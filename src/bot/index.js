@@ -4,24 +4,14 @@ import { createPrediction } from "../api/create-prediction.js";
 import { content } from "../content/index.js";
 import { fetchMatches } from "../api/fetch-matches.js";
 import { fetchResults } from "../api/fetch-results.js";
-import {initBot} from "./init-bot.js";
-import {notifyMe} from "./notify-me.js";
-import {start} from "./start.js";
+import { initBot } from "./init-bot.js";
+import { notifyMe } from "./notify-me.js";
+import { start } from "./start.js";
+import { matchesToButtons } from "./matches-to-buttons.js";
+import { prefixes } from "./prefixes.js";
+import {showPrettyMatch} from "./show-pretty-match.js";
 
 const bot = initBot();
-
-const prefixes = {
-  match: "MATCH",
-  score: "SCORE",
-};
-
-const showPrettyMatch = (match) => {
-  const flagHome = match.flagHome;
-  const flagAway = match.flagAway;
-  const home = match.home;
-  const away = match.away;
-  return `${flagHome} ${home} - ${away} ${flagAway}`;
-};
 
 const scoresToButtons = (match) => {
   const arr = [];
@@ -46,45 +36,25 @@ const scoresToButtons = (match) => {
   };
 };
 
-const matchesToButtons = (events) => {
-  const arr = [];
-  events.forEach((e, index) => {
-    arr.push([
-      {
-        text: showPrettyMatch(e),
-        callback_data: `${prefixes.match}_${index}`,
-      },
-    ]);
-  });
-  return {
-    reply_markup: JSON.stringify({
-      inline_keyboard: arr,
-    }),
-  };
-};
-
 export const startBot = () => {
   bot.on("message", async (message) => {
+    const id = message.chat.id;
     await auth(bot, message.chat);
     if (message.text === "/start") {
       await start(bot, message);
       await notifyMe(bot, `✅ Start to bet: ${JSON.stringify(message.chat)}`);
     } else if (message.text === "/bet") {
-      await bot.sendMessage(message.chat.id, content.tech_works);
-      // } else if (msg.text === "/bet") {
-      //   const matches = await fetchMatches();
-      //   await bot.sendMessage(
-      //     msg.chat.id,
-      //     content.bet,
-      //     matchesToButtons(matches)
-      //   );
+      await bot.sendMessage(id, content.tech_works);
+    } else if (message.text === "/qwe") {
+      const matches = await fetchMatches();
+      await bot.sendMessage(id, content.bet, matchesToButtons(matches));
     } else if (message.text === "/total_results") {
-      const results = await fetchResults(message.chat.id);
-      await bot.sendMessage(message.chat.id, results, {
+      const results = await fetchResults(id);
+      await bot.sendMessage(id, results, {
         parse_mode: "HTML",
       });
     } else {
-      await bot.sendMessage(message.chat.id, content.error);
+      await bot.sendMessage(id, content.error);
     }
   });
 
