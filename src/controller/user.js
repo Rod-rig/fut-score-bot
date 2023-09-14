@@ -4,16 +4,21 @@ const prisma = new PrismaClient();
 
 class UserController {
   async createUser(req, res) {
-    await prisma.user.create({
-      data: {
-        id: req.body.chat.id,
-        username: req.body.chat.username ?? "",
-        firstName: req.body.chat.first_name ?? "",
-        lastName: req.body.chat.last_name ?? "",
-      },
-    });
-    res.status(200);
-    res.send("OK");
+    try {
+      console.log(req.body);
+      await prisma.user.create({
+        data: {
+          id: parseInt(req.body.id),
+          username: req.body.username ?? "",
+          firstName: req.body.first_name ?? "",
+          lastName: req.body.last_name ?? "",
+        },
+      });
+      res.status(200).json("OK");
+    } catch (error) {
+      console.log(error);
+      res.status(404).json(null);
+    }
   }
 
   async getUsers(req, res) {
@@ -22,12 +27,16 @@ class UserController {
   }
 
   async getUser(req, res) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: parseInt(req.params.id),
-      },
-    });
-    res.send(user);
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: parseInt(req.params.id),
+        },
+      });
+      res.json(user);
+    } catch (error) {
+      res.status(404).json(null);
+    }
   }
 }
 
