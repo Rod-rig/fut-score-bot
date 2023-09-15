@@ -2,7 +2,7 @@ import "dotenv/config";
 import { auth } from "../api/auth.js";
 import { createPrediction } from "../api/create-prediction.js";
 import { content } from "../content/index.js";
-import { fetchMatches } from "../api/fetch-matches.js";
+import { fetchMatchById, fetchMatches } from "../api/fetch-matches.js";
 import { fetchResults } from "../api/fetch-results.js";
 import { initBot } from "./init-bot.js";
 import { notifyMe } from "./notify-me.js";
@@ -21,8 +21,8 @@ export const startBot = () => {
     if (message.text === "/start") {
       await start(bot, message);
       await notifyMe(bot, `✅ Start to bet: ${JSON.stringify(message.chat)}`);
-    // } else if (message.text === "/bet") {
-    //   await bot.sendMessage(id, content.tech_works);
+      // } else if (message.text === "/bet") {
+      //   await bot.sendMessage(id, content.tech_works);
     } else if (message.text === "/bet") {
       const matches = await fetchMatches();
       await bot.sendMessage(id, content.bet, matchesToButtons(matches));
@@ -53,9 +53,8 @@ export const startBot = () => {
         `${content.success} ${showPrettyMatch(match.event)}`
       );
     } else if (message.data.includes(prefixes.match)) {
-      const matches = await fetchMatches();
       const matchId = message.data.split("_")[1];
-      const match = matches.find((m) => m.id.toString() === matchId);
+      const match = await fetchMatchById(matchId);
       await bot.sendMessage(
         chatId,
         content.odds(showPrettyMatch(match)),

@@ -19,6 +19,18 @@ class EventController {
     });
     res.send(events);
   }
+
+  async getEventById(req, res) {
+    const event = await prisma.event.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      include: {
+        odd: true,
+      },
+    });
+    res.json(event);
+  }
 }
 
 export const eventController = new EventController();

@@ -3,7 +3,7 @@ import { prefixes } from "./prefixes.js";
 
 export const matchesToButtons = (events) => {
   const arr = [];
-  events.forEach((e, index) => {
+  events.forEach((e) => {
     arr.push([
       {
         text: showPrettyMatch(e),
