@@ -5,7 +5,19 @@ const prisma = new PrismaClient();
 class PredictionController {
   async getPredictions(req, res) {
     const predictions = await prisma.prediction.findMany();
-    res.send(predictions);
+    res.json(predictions);
+  }
+
+  async getPredictionHistory(req, res) {
+    const predictions = await prisma.prediction.findMany({
+      where: {
+        userId: parseInt(req.params.id),
+      },
+      include: {
+        event: true,
+      }
+    });
+    res.json(predictions);
   }
 
   async getPredictionById(req, res) {

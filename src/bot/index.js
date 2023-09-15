@@ -11,6 +11,8 @@ import { matchesToButtons } from "./matches-to-buttons.js";
 import { prefixes } from "./prefixes.js";
 import { showPrettyMatch } from "./show-pretty-match.js";
 import { scoresToButtons } from "./scores-to-buttons.js";
+import { fetchHistory } from "../api/fetch-history.js";
+import { predictionsToHistory } from "./predictions-to-history.js";
 
 const bot = initBot();
 
@@ -31,6 +33,14 @@ export const startBot = () => {
       await bot.sendMessage(id, results, {
         parse_mode: "HTML",
       });
+    } else if (message.text === "/history") {
+      const predictions = await fetchHistory(id);
+      const str = predictionsToHistory(predictions);
+      try {
+        await bot.sendMessage(id, str);
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       await bot.sendMessage(id, content.error);
     }
