@@ -25,6 +25,23 @@ class UserController {
     res.send(users);
   }
 
+  async getUsersFullInfo(req, res) {
+    const users = await prisma.user.findMany({
+      include: {
+        predictions: {
+          include: {
+            event: {
+              include: {
+                odd: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    res.send(users);
+  }
+
   async getUser(req, res) {
     try {
       const user = await prisma.user.findUnique({
@@ -35,6 +52,22 @@ class UserController {
       res.json(user);
     } catch (error) {
       res.status(404).json(null);
+    }
+  }
+
+  async updateUser(req, res) {
+    try {
+      const user = await prisma.user.update({
+        where: {
+          id: parseInt(req.params.id),
+        },
+        data: {
+          result: +req.body.result,
+        },
+      });
+      res.json(user);
+    } catch (error) {
+      res.status(404).json(error);
     }
   }
 }

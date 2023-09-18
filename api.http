@@ -1,3 +1,11 @@
+### Fetch Users
+GET http://localhost:3000/api/users
+Accept: application/json
+
+### Fetch Users Full Info
+GET http://localhost:3000/api/users-full-info
+Accept: application/json
+
 ### Fetch Prediction By User Id
 GET http://localhost:3000/api/predictions/100000000
 Accept: application/json
