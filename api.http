@@ -1,0 +1,42 @@
+### Fetch Prediction By User Id
+GET http://localhost:3000/api/predictions/100000000
+Accept: application/json
+
+### Fetch Predictions
+GET http://localhost:3000/api/predictions
+Accept: application/json
+
+### Fetch Event
+POST https://www.favbet.ua/frontend_api2/
+Accept: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "frontend/event/get",
+    "params": {
+        "by": {
+            "lang": "en",
+            "head_markets": true,
+            "service_id": 0,
+            "event_id": 39796328
+        }
+    }
+}
+
+### Fetch Odds
+POST https://www.favbet.ua/frontend_api2/
+Accept: application/json
+
+{
+    "jsonrpc": "2.0",
+    "id": 6,
+    "method": "frontend/market/get",
+    "params": {
+        "by": {
+            "lang": "en",
+            "service_id": 0,
+            "event_id": 39796328
+        }
+    }
+}
+

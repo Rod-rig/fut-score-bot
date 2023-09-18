@@ -1,6 +1,6 @@
 export const content = {
   hello: (name) =>
-    `Hello ${name} 👋\n\nWelcome to Fut_Score_Bot 🥳\n\nHere you can test your intuition 🔮 and prediction skills 🧙 absolutely for free 🆓\n\n🔜🔜🔜Here will be rules...\n\nAvailable commands:\n/start - start bot 🤖 and read 📖 rules\n/bet    - start betting 🤔 (show available matches for predictions)\n/total_results - see general table of results 🏆`,
+    `Hello ${name} 👋\n\nWelcome to Fut_Score_Bot 🥳\n\nHere you can test your intuition 🔮 and prediction skills 🧙 absolutely for free 🆓\n\n🔜🔜🔜Here will be rules...\n\nAvailable commands:\n/start - start bot 🤖 and read 📖 rules\n/bet    - start betting 🤔 (show available matches for predictions)\n/total_results - see general table of results 🏆\n/history - see your betting history 👀`,
   stickers: [
     "CAACAgIAAxkBAAElOQJk5RGXTrF6EYJFPR-UKV8WmvIhQQACoAADlp-MDmce7YYzVgABVTAE",
     "CAACAgIAAxkBAAElcXFk7PZQqio82lTUR0mYR27T3ZO_pAACVQIAAladvQqsSyyCT6MV3zAE",

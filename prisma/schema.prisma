@@ -33,8 +33,7 @@ model Prediction {
 
 model Event {
   id          Int          @id @unique
-  startDate   DateTime     @db.Date
-  startTime   DateTime     @db.Time()
+  startDate   DateTime     @db.Timestamptz()
   tournament  String
   home        String
   away        String
