@@ -9,12 +9,13 @@ const createStatus = (prediction) => {
 
   if (
     prediction.event.score === prediction.value ||
-    (prediction.value === "Any other" && (homeGoals > 3 || awayGoals > 3))
+    (prediction.value.toLowerCase() === "any other" &&
+      (homeGoals > 3 || awayGoals > 3))
   ) {
     return "✅";
   }
 
-  if (prediction.value === "Any other") {
+  if (prediction.value.toLowerCase() === "any other") {
     return "❌";
   }
 

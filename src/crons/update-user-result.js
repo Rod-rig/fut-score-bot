@@ -32,7 +32,7 @@ const calculateResult = (prediction) => {
 
   if (
     actual === expected ||
-    (expected === "Any other" && (homeGoals > 3 || awayGoals > 3))
+    (expected.toLowerCase() === "any other" && (homeGoals > 3 || awayGoals > 3))
   ) {
     return prediction["event"]["odd"][scoreMapping(actual)];
   } else if (getResult(actual) === getResult(expected)) {
