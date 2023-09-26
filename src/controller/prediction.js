@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../utils/prisma.js";
 
 class PredictionController {
   async getPredictions(req, res) {
@@ -15,7 +13,7 @@ class PredictionController {
       },
       include: {
         event: true,
-      }
+      },
     });
     res.json(predictions);
   }
