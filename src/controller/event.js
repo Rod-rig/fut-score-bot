@@ -15,9 +15,21 @@ class EventController {
       },
       include: {
         odd: true,
+        predictions: true,
       },
     });
-    res.send(events);
+    if (events.length > 0) {
+      const filteredEvents = events.filter((event) => {
+        return (
+          event.predictions.findIndex(
+            (p) => p.userId === parseInt(req.params.userId)
+          ) < 0
+        );
+      });
+      res.send(filteredEvents);
+    } else {
+      res.send([]);
+    }
   }
 
   async getEventById(req, res) {

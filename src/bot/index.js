@@ -23,21 +23,25 @@ export const startBot = () => {
     if (message.text === "/start") {
       await start(bot, message);
       await notifyMe(bot, `✅ Start to bet: ${JSON.stringify(message.chat)}`);
-      // } else if (message.text === "/bet") {
-      //   await bot.sendMessage(id, content.tech_works);
     } else if (message.text === "/bet") {
-      const matches = await fetchMatches();
-      await bot.sendMessage(id, content.bet, matchesToButtons(matches));
+      const matches = await fetchMatches(id);
+      if (!matches || matches.length < 1) {
+        await bot.sendMessage(id, content.tech_works);
+      } else {
+        await bot.sendMessage(id, content.bet, matchesToButtons(matches));
+      }
     } else if (message.text === "/total_results") {
       const results = await fetchResults(id);
       await bot.sendMessage(id, results, {
         parse_mode: "HTML",
       });
+      await notifyMe(bot, `✅ Seen results: ${message.chat.first_name}`);
     } else if (message.text === "/history") {
       const predictions = await fetchHistory(id);
       const str = predictionsToHistory(predictions);
       try {
         await bot.sendMessage(id, str);
+        await notifyMe(bot, `✅ Seen history: ${message.chat.first_name}`);
       } catch (e) {
         console.log(e);
       }
@@ -61,6 +65,10 @@ export const startBot = () => {
       await bot.sendMessage(
         chatId,
         `${content.success} ${showPrettyMatch(match.event)}`
+      );
+      await notifyMe(
+        bot,
+        `✅ Placed bet: ${chatId} ${showPrettyMatch(match.event)} ${value}`
       );
     } else if (message.data.includes(prefixes.match)) {
       const matchId = message.data.split("_")[1];

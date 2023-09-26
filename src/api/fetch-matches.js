@@ -1,8 +1,8 @@
 import "dotenv/config";
 
-export const fetchMatches = async () => {
+export const fetchMatches = async (id) => {
   try {
-    const response = await fetch(`${process.env.ROOT_URL}/api/events-to-bet`);
+    const response = await fetch(`${process.env.ROOT_URL}/api/events-to-bet/${id}`);
     return await response.json();
   } catch (error) {
     console.log(error);
