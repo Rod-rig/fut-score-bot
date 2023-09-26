@@ -1,8 +1,11 @@
 import "dotenv/config";
+import { fetchMatchById } from "./fetch-matches.js";
 
 export const createPrediction = async (value, userId, eventId) => {
   try {
     let prediction = await getPrediction(value, userId, eventId);
+    const event = await fetchMatchById(eventId);
+    if (event.status === "FINISHED") return;
     if (prediction) {
       await updatePrediction(value, userId, eventId);
     } else {
