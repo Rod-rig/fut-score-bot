@@ -19,7 +19,11 @@ class UserController {
   }
 
   async getUsers(req, res) {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      include: {
+        results: true,
+      },
+    });
     res.send(users);
   }
 

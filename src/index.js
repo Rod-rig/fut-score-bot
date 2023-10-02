@@ -4,6 +4,7 @@ import { userRouter } from "./routes/user.js";
 import { eventRouter } from "./routes/event.js";
 import { oddRouter } from "./routes/odd.js";
 import { predictionRouter } from "./routes/prediction.js";
+import { resultsRouter } from "./routes/results.js";
 import { startBot } from "./bot/index.js";
 
 const app = express();
@@ -12,5 +13,6 @@ app.use("/api", userRouter);
 app.use("/api", eventRouter);
 app.use("/api", oddRouter);
 app.use("/api", predictionRouter);
+app.use("/api", resultsRouter);
 app.listen(process.env.PORT);
 startBot();
