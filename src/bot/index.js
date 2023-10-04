@@ -13,6 +13,7 @@ import { showPrettyMatch } from "./show-pretty-match.js";
 import { scoresToButtons } from "./scores-to-buttons.js";
 import { fetchHistory } from "../api/fetch-history.js";
 import { predictionsToHistory } from "./predictions-to-history.js";
+import { totalResultsButtons } from "./total-results-buttons.js";
 
 const bot = initBot();
 
@@ -33,6 +34,7 @@ export const startBot = () => {
     } else if (message.text === "/total_results") {
       const results = await fetchResults(id);
       await bot.sendMessage(id, results, {
+        ...totalResultsButtons,
         parse_mode: "HTML",
       });
       await notifyMe(bot, `✅ Seen results: ${message.chat.first_name}`);
@@ -77,6 +79,17 @@ export const startBot = () => {
         chatId,
         content.odds(showPrettyMatch(match)),
         scoresToButtons(match)
+      );
+    } else if (message.data.includes(prefixes.results)) {
+      const key = message.data.split("_")[1];
+      const results = await fetchResults(chatId, key);
+      await bot.sendMessage(chatId, results, {
+        ...totalResultsButtons,
+        parse_mode: "HTML",
+      });
+      await notifyMe(
+        bot,
+        `✅ Seen results for ${key}: ${message.message.chat.first_name}`
       );
     }
   });

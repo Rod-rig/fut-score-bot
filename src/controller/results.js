@@ -1,20 +1,31 @@
 import prisma from "../utils/prisma.js";
 
 class ResultsController {
-  async createResults(req, res) {
+  async getResults(req, res) {
+    const result = await prisma.results.findUnique({
+      where: {
+        userId: parseInt(req.params.id),
+      },
+    });
+    res.json(result);
+  }
+
+  async updateResults(req, res) {
     try {
-      await prisma.results.create({
-        data: {
+      await prisma.results.update({
+        where: {
           userId: parseInt(req.params.id),
-          total: parseInt(req.body.total),
-          england: parseInt(req.body.england),
-          spain: parseInt(req.body.spain),
-          germany: parseInt(req.body.germany),
-          france: parseInt(req.body.france),
-          italy: parseInt(req.body.italy),
-          international: parseInt(req.body.international),
-          prevMatchday: parseInt(req.body.prevMatchday),
-          euroCups: parseInt(req.body.euroCups),
+        },
+        data: {
+          total: +req.body.total,
+          england: +req.body.england,
+          spain: +req.body.spain,
+          germany: +req.body.germany,
+          france: +req.body.france,
+          italy: +req.body.italy,
+          international: +req.body.international,
+          prevMatchday: +req.body.prevMatchday,
+          euroCups: +req.body.euroCups,
         },
       });
       res.status(200).json("OK");

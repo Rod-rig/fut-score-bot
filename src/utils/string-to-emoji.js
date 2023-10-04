@@ -7,6 +7,8 @@ const stringToEmojiMap = {
   portugal: "🇵🇹",
   netherlands: "🇳🇱",
   ukraine: "🇺🇦",
+  euroCups: "🇪🇺",
+  international: "🌍",
   notfound: "🏳️",
 };
 
