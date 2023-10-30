@@ -20,4 +20,5 @@ export const content = {
     "🚫 Betting will be available later. We will send you notification 📨 when it will be possible to place new bets.",
   odds: (match) => `🤞 Choose your prediction for ${match}`,
   new_user: "New user was registered.",
+  history: "⬇️ 50 last predicted matches ⬇️\n\n"
 };

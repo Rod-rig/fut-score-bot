@@ -31,6 +31,7 @@ const createStatus = (prediction) => {
 
 export const predictionsToHistory = (predictions) => {
   return predictions
+    .slice(-50)
     .map(
       (p) =>
         `${createStatus(p)} ${p.event.home} ${

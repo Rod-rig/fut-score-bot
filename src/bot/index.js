@@ -42,7 +42,7 @@ export const startBot = () => {
       const predictions = await fetchHistory(id);
       const str = predictionsToHistory(predictions);
       try {
-        await bot.sendMessage(id, str);
+        await bot.sendMessage(id, `${content.history}${str}`);
         await notifyMe(bot, `✅ Seen history: ${message.chat.first_name}`);
       } catch (e) {
         console.log(e);
