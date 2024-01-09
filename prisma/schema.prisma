@@ -49,6 +49,7 @@ model Prediction {
 model Event {
   id          Int          @id @unique
   startDate   DateTime     @db.Timestamptz()
+  createdAt   DateTime     @default(now())
   tournament  String
   home        String
   away        String

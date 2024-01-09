@@ -9,6 +9,7 @@ const stringToEmojiMap = {
   ukraine: "🇺🇦",
   euroCups: "🇪🇺",
   international: "🌍",
+  prevMatchday: "⏮",
   notfound: "🏳️",
 };
 

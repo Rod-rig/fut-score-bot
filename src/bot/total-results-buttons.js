@@ -38,6 +38,10 @@ export const totalResultsButtons = {
           text: `🌍 International`,
           callback_data: `${prefixes.results}_international`,
         },
+        {
+          text: `⏮ Previous matchday`,
+          callback_data: `${prefixes.results}_prevMatchday`,
+        },
       ],
     ],
   }),

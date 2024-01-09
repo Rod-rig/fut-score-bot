@@ -48,6 +48,7 @@ export const startBot = () => {
         console.log(e);
       }
     } else {
+      await notifyMe(bot, JSON.stringify(message));
       await bot.sendMessage(id, content.error);
     }
   });

@@ -3,6 +3,9 @@ import { getResult } from "../utils/get-result.js";
 import { tournamentsMap } from "../utils/tournaments-map.js";
 import { round } from "../utils/round.js";
 
+const prevMatchdayDate = "2024-01-07T00:00:00.000Z";
+const prevMatchdayTime = (new Date(prevMatchdayDate)).getTime();
+
 const updateUsersResult = async () => {
   const users = await fetchUsers();
   for (const user of users) {
@@ -37,6 +40,7 @@ const getResultType = (tournament) => tournamentsMap[tournament];
 
 const calculateResult = (results, prediction) => {
   const expected = prediction.value;
+  const createdAt = prediction.createdAt;
   const actual = prediction["event"].score;
   const key = getResultType(prediction["event"]["tournament"]);
 
@@ -46,16 +50,22 @@ const calculateResult = (results, prediction) => {
   }
 
   const [homeGoals, awayGoals] = actual.split(":");
+  const createdAtTime = (new Date(createdAt)).getTime();
+  const isNewPrediction = createdAtTime > prevMatchdayTime;
 
   if (
     actual === expected ||
     (expected.toLowerCase() === "any other" && (homeGoals > 3 || awayGoals > 3))
   ) {
     results[key] += prediction["event"]["odd"][scoreMapping(actual)];
+    if (isNewPrediction) {
+      results['prevMatchday'] += prediction["event"]["odd"][scoreMapping(actual)];
+    }
   } else if (getResult(actual) === getResult(expected)) {
     results[key] += prediction["event"]["odd"][oneXTwo(getResult(expected))];
-  } else {
-    results[key] += 0;
+    if (isNewPrediction) {
+      results['prevMatchday'] += prediction["event"]["odd"][oneXTwo(getResult(expected))];
+    }
   }
   return results;
 };
