@@ -14,6 +14,11 @@ class PredictionController {
       include: {
         event: true,
       },
+      orderBy: {
+        event: {
+          startDate: 'asc',
+        },
+      },
     });
     res.json(predictions);
   }

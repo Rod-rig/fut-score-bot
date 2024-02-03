@@ -7,7 +7,9 @@ export const tournamentsMap = {
   "Euro 2024. Qualifying": "international",
   "La Liga": "spain",
   "Spain Super Cup": "spain",
+  "Copa del Rey": "spain",
   "Ligue 1": "france",
   "Serie A": "italy",
   "Coppa Italia": "italy",
+  "Supercoppa": "italy",
 };
