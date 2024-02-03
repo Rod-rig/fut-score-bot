@@ -71,8 +71,14 @@ export const startBot = () => {
       );
       await notifyMe(
         bot,
-        `✅ Placed bet: ${chatId} ${showPrettyMatch(match.event)} ${value}`
+        `✅ Placed bet: ${message.message.chat.first_name} ${showPrettyMatch(
+          match.event
+        )} ${value}`
       );
+      const matches = await fetchMatches(chatId);
+      if (matches && matches.length >= 1) {
+        await bot.sendMessage(chatId, content.bet, matchesToButtons(matches));
+      }
     } else if (message.data.includes(prefixes.match)) {
       const matchId = message.data.split("_")[1];
       const match = await fetchMatchById(matchId);
