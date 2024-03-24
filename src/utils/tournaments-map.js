@@ -4,6 +4,7 @@ export const tournamentsMap = {
   "FA Cup": "england",
   Bundesliga: "germany",
   "Champions League": "euroCups",
+  "Europe League": "euroCups",
   "Euro 2024. Qualifying": "international",
   "La Liga": "spain",
   "Spain Super Cup": "spain",

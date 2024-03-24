@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -34,7 +35,7 @@ model Results {
 }
 
 model Prediction {
-  id        Int      @id @default(autoincrement())
+  id        Int      @default(autoincrement())
   value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -48,7 +49,7 @@ model Prediction {
 
 model Event {
   id          Int          @id @unique
-  startDate   DateTime     @db.Timestamptz()
+  startDate   DateTime     @db.Timestamptz(6)
   createdAt   DateTime     @default(now())
   tournament  String
   home        String
@@ -58,8 +59,8 @@ model Event {
   flagHome    String
   flagAway    String
   status      EventStatus  @default(FINISHED)
-  predictions Prediction[]
   odd         Odd?
+  predictions Prediction[]
 }
 
 model Odd {
