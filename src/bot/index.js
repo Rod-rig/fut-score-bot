@@ -65,19 +65,23 @@ export const startBot = () => {
       const matchId = prediction.split("_")[0];
       const value = prediction.split("_")[1];
       const match = await createPrediction(value, chatId, matchId);
-      await bot.sendMessage(
-        chatId,
-        `${content.success} ${showPrettyMatch(match.event)}`
-      );
-      await notifyMe(
-        bot,
-        `✅ Placed bet: ${message.message.chat.first_name} ${showPrettyMatch(
-          match.event
-        )} ${value}`
-      );
-      const matches = await fetchMatches(chatId);
-      if (matches && matches.length >= 1) {
-        await bot.sendMessage(chatId, content.bet, matchesToButtons(matches));
+      if (match) {
+        await bot.sendMessage(
+          chatId,
+          `${content.success} ${showPrettyMatch(match.event)}`
+        );
+        await notifyMe(
+          bot,
+          `✅ Placed bet: ${message.message.chat.first_name} ${showPrettyMatch(
+            match.event
+          )} ${value}`
+        );
+        const matches = await fetchMatches(chatId);
+        if (matches && matches.length >= 1) {
+          await bot.sendMessage(chatId, content.bet, matchesToButtons(matches));
+        }
+      } else {
+        await bot.sendMessage(chatId, content.warning);
       }
     } else if (message.data.includes(prefixes.match)) {
       const matchId = message.data.split("_")[1];

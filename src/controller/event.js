@@ -10,33 +10,40 @@ class EventController {
     const events = await prisma.event.findMany({
       where: {
         status: "NOT_STARTED",
+        predictions: {
+          none: {
+            userId: {
+              equals: parseInt(req.params.userId),
+            },
+          },
+        },
       },
       include: {
         odd: true,
-        predictions: true,
       },
     });
-    if (events.length > 0) {
-      const filteredEvents = events.filter((event) => {
-        return (
-          event.predictions.findIndex(
-            (p) => p.userId === parseInt(req.params.userId)
-          ) < 0
-        );
-      });
-      res.send(filteredEvents);
-    } else {
-      res.send([]);
-    }
+    res.send(events);
   }
 
-  async getEventById(req, res) {
+  async getEventByIdWithOdds(req, res) {
     const event = await prisma.event.findUnique({
       where: {
         id: parseInt(req.params.id),
       },
       include: {
         odd: true,
+      },
+    });
+    res.json(event);
+  }
+
+  async getEventByIdWithPredictions(req, res) {
+    const event = await prisma.event.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      include: {
+        predictions: true,
       },
     });
     res.json(event);

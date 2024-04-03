@@ -16,6 +16,7 @@ export const content = {
   bet: "🏆 Bet on following matches:",
   success: "✅ You've successfully submitted your prediction for match",
   error: "❌ Wrong command. Please choose correct command from menu.",
+  warning: "⚠️ You've already made prediction on this event",
   tech_works:
     "🚫 Betting will be available later. We will send you notification 📨 when it will be possible to place new bets.",
   odds: (match) => `🤞 Choose your prediction for ${match}`,

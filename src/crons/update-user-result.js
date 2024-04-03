@@ -25,7 +25,7 @@ const updateUsersResult = async () => {
     }
     for (const res of Object.keys(results)) {
       const points = round(results[res]);
-      if (res !== "prevMatchday" || res !== "total") {
+      if (res !== "prevMatchday" && res !== "total") {
         results.total += points;
       }
       results[res] = points;
