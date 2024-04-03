@@ -111,7 +111,7 @@ const updateAveragePrediction = async (value, eventId) => {
     const userId = 100000002;
     const prediction = await getPrediction(userId, eventId);
     if (prediction) {
-      const event = getEventWithPredictions(eventId);
+      const event = await getEventWithPredictions(eventId);
       const eventScores = event.predictions
         .filter((p) => p.userId !== userId || p.value !== "Any Other")
         .map((p) => p.value);
