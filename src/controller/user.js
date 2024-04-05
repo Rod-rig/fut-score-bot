@@ -50,6 +50,17 @@ class UserController {
         where: {
           id: parseInt(req.params.id),
         },
+        include: {
+          predictions: {
+            include: {
+              event: {
+                include: {
+                  odd: true,
+                },
+              },
+            },
+          },
+        },
       });
       res.json(user);
     } catch (error) {
