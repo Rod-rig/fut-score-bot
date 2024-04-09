@@ -32,7 +32,7 @@ const getPrediction = async (userId, eventId) => {
           userId,
           eventId,
         }),
-      }
+      },
     );
     return await response.json();
   } catch (error) {
@@ -88,7 +88,7 @@ const calculateAverageScore = (scores) => {
     {
       home: 0,
       away: 0,
-    }
+    },
   );
   const homeAverage = Math.round(sum["home"] / scores.length);
   const awayAverage = Math.round(sum["away"] / scores.length);
@@ -98,7 +98,7 @@ const calculateAverageScore = (scores) => {
 const getEventWithPredictions = async (eventId) => {
   try {
     const response = await fetch(
-      `${process.env.ROOT_URL}/api/event-predictions/${eventId}`
+      `${process.env.ROOT_URL}/api/event-predictions/${eventId}`,
     );
     return await response.json();
   } catch (error) {

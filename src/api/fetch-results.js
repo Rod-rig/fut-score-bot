@@ -11,14 +11,14 @@ export const fetchResults = async (currentUser, key) => {
       ? `Total score for ${stringToEmoji(key)} ${key.toUpperCase()}\n`
       : "";
     const sortedUsers = users.sort(
-      (a, b) => b.results[field] - a.results[field]
+      (a, b) => b.results[field] - a.results[field],
     );
     const results = sortedUsers.map((user, index) => {
       const username = user.username
         ? user.username
         : user.firstName
-        ? user.firstName
-        : "No Name";
+          ? user.firstName
+          : "No Name";
       const result = user.results[field] ?? 0;
       const userToBold = user.id.toString() === currentUser.toString();
       if (index === 0) {
@@ -32,7 +32,7 @@ export const fetchResults = async (currentUser, key) => {
       }
       return boldText(
         `${index + 1}. ${username} - ${result} points`,
-        userToBold
+        userToBold,
       );
     });
 

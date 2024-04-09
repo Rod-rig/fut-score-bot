@@ -7,7 +7,7 @@ router.get("/events", eventController.getEvents);
 router.get("/event/:id", eventController.getEventByIdWithOdds);
 router.get(
   "/event-predictions/:id",
-  eventController.getEventByIdWithPredictions
+  eventController.getEventByIdWithPredictions,
 );
 router.get("/events-to-bet/:userId", eventController.getEventsToBet);
 router.post("/event/:id", eventController.createEvent);

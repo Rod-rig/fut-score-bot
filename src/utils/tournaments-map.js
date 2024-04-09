@@ -12,5 +12,5 @@ export const tournamentsMap = {
   "Ligue 1": "france",
   "Serie A": "italy",
   "Coppa Italia": "italy",
-  "Supercoppa": "italy",
+  Supercoppa: "italy",
 };

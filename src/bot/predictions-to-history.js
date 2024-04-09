@@ -36,7 +36,7 @@ export const predictionsToHistory = (predictions) => {
       (p) =>
         `${createStatus(p)} ${p.event.home} ${
           p.event.score ? p.event.score : "-"
-        } ${p.event.away} (your bet - ${p.value})`
+        } ${p.event.away} (your bet - ${p.value})`,
     )
     .join("\n\n");
 };

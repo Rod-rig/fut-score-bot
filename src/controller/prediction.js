@@ -16,7 +16,7 @@ class PredictionController {
       },
       orderBy: {
         event: {
-          startDate: 'asc',
+          startDate: "asc",
         },
       },
     });

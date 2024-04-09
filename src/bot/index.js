@@ -68,13 +68,13 @@ export const startBot = () => {
       if (match) {
         await bot.sendMessage(
           chatId,
-          `${content.success} ${showPrettyMatch(match.event)}`
+          `${content.success} ${showPrettyMatch(match.event)}`,
         );
         await notifyMe(
           bot,
           `✅ Placed bet: ${message.message.chat.first_name} ${showPrettyMatch(
-            match.event
-          )} ${value}`
+            match.event,
+          )} ${value}`,
         );
         const matches = await fetchMatches(chatId);
         if (matches && matches.length >= 1) {
@@ -89,7 +89,7 @@ export const startBot = () => {
       await bot.sendMessage(
         chatId,
         content.odds(showPrettyMatch(match)),
-        scoresToButtons(match)
+        scoresToButtons(match),
       );
     } else if (message.data.includes(prefixes.results)) {
       const key = message.data.split("_")[1];
@@ -100,7 +100,7 @@ export const startBot = () => {
       });
       await notifyMe(
         bot,
-        `✅ Seen results for ${key}: ${message.message.chat.first_name}`
+        `✅ Seen results for ${key}: ${message.message.chat.first_name}`,
       );
     }
   });
