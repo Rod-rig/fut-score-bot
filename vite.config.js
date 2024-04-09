@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   // eslint-disable-next-line no-undef
   const env = loadEnv(mode, process.cwd(), "");
   return {
-    root: "./frontend",
+    root: "./site",
     server: {
       proxy: {
         "/api": env.VITE_API_URL,
@@ -15,9 +15,9 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        "@": path.resolve("./frontend/src"),
-        "@assets": path.resolve("./frontend/src/assets"),
-        "@components": path.resolve("./frontend/src/components"),
+        "@": path.resolve("./site/src"),
+        "@assets": path.resolve("./site/src/assets"),
+        "@components": path.resolve("./site/src/components"),
       },
     },
     plugins: [react()],
