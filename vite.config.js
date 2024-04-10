@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
         "/api": env.VITE_API_URL,
       },
     },
+    build: {
+      outDir: path.resolve("./dist"),
+    },
     resolve: {
       alias: {
         "@": path.resolve("./site/client/src"),
