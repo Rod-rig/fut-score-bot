@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import "dotenv/config";
 import { userRouter } from "./routes/user.js";
 import { eventRouter } from "./routes/event.js";
@@ -9,7 +8,6 @@ import { resultsRouter } from "./routes/results.js";
 import { startBot } from "./bot/index.js";
 
 const app = express();
-app.use(cors());
 app.use(express.static("dist"));
 app.use(express.json());
 app.use("/api", userRouter);
