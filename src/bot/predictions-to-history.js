@@ -30,6 +30,9 @@ const createStatus = (prediction) => {
 };
 
 export const predictionsToHistory = (predictions) => {
+  if (!predictions.length) {
+    return "🤷‍♂️ You don't have any predictions yet\n\n⭐️ To start betting on the new events press /bet";
+  }
   return predictions
     .slice(-50)
     .map(

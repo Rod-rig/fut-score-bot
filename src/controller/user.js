@@ -11,6 +11,11 @@ class UserController {
           lastName: req.body.last_name ?? "",
         },
       });
+      await prisma.results.create({
+        data: {
+          userId: parseInt(req.body.id),
+        },
+      });
       res.status(200).json("OK");
     } catch (error) {
       console.log(error);
