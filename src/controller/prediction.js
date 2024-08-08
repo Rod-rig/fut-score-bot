@@ -9,7 +9,7 @@ class PredictionController {
   async getPredictionHistory(req, res) {
     const predictions = await prisma.prediction.findMany({
       where: {
-        userId: parseInt(req.params.id),
+        userId: req.params.id,
       },
       include: {
         event: true,

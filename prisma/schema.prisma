@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @unique
+  id          String       @id @unique
   firstName   String
   lastName    String?
   username    String
@@ -20,18 +20,18 @@ model User {
 }
 
 model Results {
-  id            Int   @id @default(autoincrement())
-  user          User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        Int   @unique
-  total         Float @default(0)
-  england       Float @default(0)
-  spain         Float @default(0)
-  germany       Float @default(0)
-  france        Float @default(0)
-  italy         Float @default(0)
-  international Float @default(0)
-  prevMatchday  Float @default(0)
-  euroCups      Float @default(0)
+  id            Int    @id @default(autoincrement())
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String @unique
+  total         Float  @default(0)
+  england       Float  @default(0)
+  spain         Float  @default(0)
+  germany       Float  @default(0)
+  france        Float  @default(0)
+  italy         Float  @default(0)
+  international Float  @default(0)
+  prevMatchday  Float  @default(0)
+  euroCups      Float  @default(0)
 }
 
 model Prediction {
@@ -40,7 +40,7 @@ model Prediction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  userId    String
   event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId   Int
 

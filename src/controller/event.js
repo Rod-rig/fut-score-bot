@@ -13,7 +13,7 @@ class EventController {
         predictions: {
           none: {
             userId: {
-              equals: parseInt(req.params.userId),
+              equals: req.params.userId,
             },
           },
         },

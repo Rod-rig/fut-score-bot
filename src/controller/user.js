@@ -5,7 +5,7 @@ class UserController {
     try {
       await prisma.user.create({
         data: {
-          id: parseInt(req.body.id),
+          id: `${req.body.id}`,
           username: req.body.username ?? "",
           firstName: req.body.first_name ?? "",
           lastName: req.body.last_name ?? "",
@@ -13,7 +13,7 @@ class UserController {
       });
       await prisma.results.create({
         data: {
-          userId: parseInt(req.body.id),
+          userId: `${req.body.id}`,
         },
       });
       res.status(200).json("OK");
@@ -53,7 +53,7 @@ class UserController {
     try {
       const user = await prisma.user.findUnique({
         where: {
-          id: parseInt(req.params.id),
+          id: req.params.id,
         },
         include: {
           predictions: {
@@ -77,10 +77,10 @@ class UserController {
     try {
       const user = await prisma.user.update({
         where: {
-          id: parseInt(req.params.id),
+          id: req.params.id,
         },
         data: {
-          result: +req.body.result,
+          result: req.body.result,
         },
       });
       res.json(user);
