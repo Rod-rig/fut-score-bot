@@ -28,7 +28,7 @@ class PredictionController {
       const prediction = await prisma.prediction.findUnique({
         where: {
           userId_eventId: {
-            userId: parseInt(req.body.userId),
+            userId: `${req.body.userId}`,
             eventId: parseInt(req.body.eventId),
           },
         },
@@ -63,7 +63,7 @@ class PredictionController {
       await prisma.prediction.update({
         where: {
           userId_eventId: {
-            userId: parseInt(req.body.userId),
+            userId: `${req.body.userId}`,
             eventId: parseInt(req.body.eventId),
           },
         },
