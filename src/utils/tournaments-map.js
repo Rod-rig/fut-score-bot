@@ -2,6 +2,7 @@ export const tournamentsMap = {
   "Premier League": "england",
   "EFL Cup": "england",
   "FA Cup": "england",
+  "FA Community Shield": "england",
   Championship: "england",
   Bundesliga: "germany",
   "Champions League": "euroCups",

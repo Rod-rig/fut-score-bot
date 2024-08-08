@@ -47,7 +47,7 @@ class PredictionController {
       await prisma.prediction.create({
         data: {
           value: req.body.value,
-          userId: parseInt(req.body.userId),
+          userId: `${req.body.userId}`,
           eventId: parseInt(req.body.eventId),
         },
       });
