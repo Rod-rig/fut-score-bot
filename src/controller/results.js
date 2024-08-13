@@ -14,7 +14,7 @@ class ResultsController {
     try {
       await prisma.results.update({
         where: {
-          userId: parseInt(req.params.id),
+          userId: req.params.id,
         },
         data: {
           total: +req.body.total,
