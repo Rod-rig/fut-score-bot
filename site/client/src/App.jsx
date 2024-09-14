@@ -4,7 +4,8 @@ const App = () => {
   return (
     <>
       <div>
-        <Link to="/">Головна</Link>
+        <Link to="/">{`<Home>`}</Link>{" "}
+        {/*<Link to="/predict/449442235">{`<Send prediction>`}</Link>*/}
       </div>
       <Outlet />
     </>

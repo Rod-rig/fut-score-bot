@@ -22,7 +22,9 @@ const UserList = () => {
           <tr key={user.id}>
             <td>{index + 1}</td>
             <td>
-              <Link to={`/users/${user.id}`}>{user.username}</Link>
+              <Link to={`/users/${user.id}`}>
+                {user.username ? user.username : user.firstName}
+              </Link>
             </td>
             <td>{user.results.total}</td>
           </tr>

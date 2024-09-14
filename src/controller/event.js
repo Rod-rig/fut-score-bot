@@ -43,7 +43,15 @@ class EventController {
         id: parseInt(req.params.id),
       },
       include: {
-        predictions: true,
+        predictions: {
+          orderBy: {
+            updatedAt: "asc",
+          },
+          include: {
+            user: true,
+          },
+        },
+        odd: true,
       },
     });
     res.json(event);

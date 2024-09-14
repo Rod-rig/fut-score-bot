@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { Link, useLoaderData, useNavigation } from "react-router-dom";
 import Loader from "@components/Loader";
 import Divider from "@components/Divider";
+import Flag from "@components/Flag";
 import {
   calcBalance,
   filterNullScore,
-  getFlag,
   isAnyOther,
   isAnyOtherScore,
   isCorrect1X2,
@@ -81,6 +81,7 @@ const User = () => {
         <thead>
           <tr>
             <th>#️⃣</th>
+            <th>ID</th>
             <th>📅 Date</th>
             <th>🏆 Tournament</th>
             <th>🏠 Home</th>
@@ -101,24 +102,17 @@ const User = () => {
             return (
               <tr key={p.id}>
                 <td>{index + 1}</td>
+                <td>
+                  <Link to={`/event/${p.eventId}`}>{p.eventId}</Link>
+                </td>
                 <td>{new Date(p.event.startDate).toLocaleDateString()}</td>
                 <td>{p.event.tournament}</td>
                 <td>
-                  <img
-                    src={getFlag(p.event.flagHome)}
-                    alt={p.event.flagHome}
-                    width={20}
-                  />{" "}
-                  {p.event.home}
+                  <Flag name={p.event.flagHome} /> {p.event.home}
                 </td>
                 <td>{p.event.score}</td>
                 <td>
-                  {p.event.away}{" "}
-                  <img
-                    src={getFlag(p.event.flagAway)}
-                    alt={p.event.flagAway}
-                    width={20}
-                  />
+                  {p.event.away} <Flag name={p.event.flagAway} />
                 </td>
                 <td>{p.value}</td>
                 <td>{isCorrectPrediction(p) ? "✅" : "❌"}</td>

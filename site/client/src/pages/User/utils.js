@@ -45,6 +45,7 @@ const calcBalance = (p, balance, stake) => {
 
 export {
   isAnyOther,
+  getResult,
   isAnyOtherScore,
   getFlag,
   filterNullScore,
