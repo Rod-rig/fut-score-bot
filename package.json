@@ -6,7 +6,7 @@
     "start_bot": "nodemon src/index.js",
     "db": "npx prisma studio",
     "migrate": "prisma migrate dev --name init",
-    "dev": "nodemon site/server/main.js -w site/server",
+    "start:site": "vite",
     "build": "npm i && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
