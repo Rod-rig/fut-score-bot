@@ -77,6 +77,22 @@ class PredictionController {
       res.status(404).json(null);
     }
   }
+
+  async createPredictionBatch(req, res) {
+    try {
+      const { userId, events } = req.body;
+      const data = Object.keys(events).map((key) => ({
+        value: events[key],
+        userId: `${userId}`,
+        eventId: parseInt(key),
+      }));
+      await prisma.prediction.createMany({ data, skipDuplicates: true });
+      res.status(200).json("OK");
+    } catch (error) {
+      console.log(error);
+      res.status(404).json(null);
+    }
+  }
 }
 
 export const predictionController = new PredictionController();
