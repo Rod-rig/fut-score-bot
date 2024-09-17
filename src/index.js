@@ -9,6 +9,9 @@ import { startBot } from "./bot/index.js";
 
 const app = express();
 app.use(express.static("dist"));
+app.get("*", function (request, response) {
+  response.sendFile("dist/index.html");
+});
 app.use(express.json());
 app.use("/api", userRouter);
 app.use("/api", eventRouter);
