@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import "dotenv/config";
 import { userRouter } from "./routes/user.js";
 import { eventRouter } from "./routes/event.js";
@@ -10,7 +11,7 @@ import { startBot } from "./bot/index.js";
 const app = express();
 app.use(express.static("dist"));
 app.get("*", function (request, response) {
-  response.sendFile("dist/index.html");
+  response.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 app.use(express.json());
 app.use("/api", userRouter);
