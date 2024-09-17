@@ -14,11 +14,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.static(__dirname + "../dist"));
 app.use(express.json());
-app.use("/api", userRouter);
-app.use("/api", eventRouter);
-app.use("/api", oddRouter);
-app.use("/api", predictionRouter);
-app.use("/api", resultsRouter);
+app.get("/api", userRouter);
+app.get("/api", eventRouter);
+app.get("/api", oddRouter);
+app.get("/api", predictionRouter);
+app.get("/api", resultsRouter);
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../dist", "index.html"));
 });
