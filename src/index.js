@@ -12,7 +12,7 @@ import { startBot } from "./bot/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-app.use(express.static(__dirname + "/dist"));
+app.use(express.static(__dirname + "../dist"));
 app.get("*", function (request, response) {
   response.sendFile(path.resolve(__dirname, "../dist", "index.html"));
 });
