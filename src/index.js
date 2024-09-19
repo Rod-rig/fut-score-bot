@@ -12,7 +12,7 @@ import { startBot } from "./bot/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-app.use(express.static(__dirname + "../dist"));
+app.use(express.static(__dirname + "../dist/assets"));
 app.use(express.json());
 app.use("/api", userRouter);
 app.use("/api", eventRouter);
