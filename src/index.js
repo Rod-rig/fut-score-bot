@@ -17,7 +17,7 @@ app.use("/api", oddRouter);
 app.use("/api", predictionRouter);
 app.use("/api", resultsRouter);
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist", "index.html"));
+  res.sendFile("../dist/index.html");
 });
 app.listen(process.env.PORT);
 startBot();
