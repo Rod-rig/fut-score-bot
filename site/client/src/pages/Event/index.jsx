@@ -8,6 +8,23 @@ const Event = () => {
   const event = useLoaderData();
   const navigation = useNavigation();
   const isFinished = Boolean(event.score);
+  const predictionsWithValues = event.predictions.filter(
+    (p) => p.userId !== "100000002" && p.value !== "Any Other",
+  );
+  const averageScore = predictionsWithValues.reduce(
+    (acc, p) => {
+      const { value } = p;
+      const [home, away] = value.split(":");
+      acc.home += +home;
+      acc.away += +away;
+      return acc;
+    },
+    { home: 0, away: 0 },
+  );
+  const home =
+    Math.round((averageScore.home / predictionsWithValues.length) * 100) / 100;
+  const away =
+    Math.round((averageScore.away / predictionsWithValues.length) * 100) / 100;
 
   return navigation.state === "loading" ? (
     <div>Завантаження...</div>
@@ -25,6 +42,7 @@ const Event = () => {
       <div>Start at: {new Date(event.startDate).toLocaleString()}</div>
       <div>Tournament: {event.tournament}</div>
       <div>Number of predictions: {event.predictions.length}</div>
+      <div>Average prediction: {`${home}:${away}`}</div>
       <div>Odds:</div>
       <div>
         <table>
