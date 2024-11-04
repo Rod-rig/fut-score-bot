@@ -57,6 +57,9 @@ class UserController {
         },
         include: {
           predictions: {
+            orderBy: {
+              createdAt: "asc",
+            },
             include: {
               event: {
                 include: {
