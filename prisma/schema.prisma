@@ -21,7 +21,6 @@ model User {
 
 model Results {
   id            Int    @id @default(autoincrement())
-  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String @unique
   total         Float  @default(0)
   england       Float  @default(0)
@@ -32,6 +31,7 @@ model Results {
   international Float  @default(0)
   prevMatchday  Float  @default(0)
   euroCups      Float  @default(0)
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Prediction {
@@ -39,10 +39,10 @@ model Prediction {
   value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId])
 }
