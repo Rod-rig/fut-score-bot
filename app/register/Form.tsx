@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,13 +20,18 @@ import {
 import { Form as UIForm, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RegisterSchema, RegisterSchemaType } from "@/lib/schemas/register";
+import { createUser } from "./actions";
 
 export function RegisterForm() {
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
   });
   const onSubmit = async (data: RegisterSchemaType) => {
-    console.log(data);
+    await createUser(data);
+    const result = await signIn("credentials", { ...data, callbackUrl: "/" });
+    if (result?.error) {
+      console.log(result.error);
+    }
   };
   return (
     <Card>
