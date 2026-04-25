@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Form as UIForm, FormField } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { LoginSchema, LoginSchemaType } from "@/lib/schemas/login";
+import { Button } from "@c/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@c/ui/card";
+import { Field, FieldGroup, FieldLabel } from "@c/ui/field";
+import { Form as UIForm, FormField } from "@c/ui/form";
+import { Input } from "@c/ui/input";
+import { LoginSchema, LoginSchemaType } from "@s/login";
 
 export function LoginForm() {
   const [error, setError] = useState<string | undefined>();

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import Flag from "@/components/custom/Flag";
-import { prisma } from "@/lib/client";
+import { Button } from "@c/ui/button";
+import Flag from "@c/shared/Flag";
+import { prisma } from "@l/prisma";
 
 export default async function Page({
   params,

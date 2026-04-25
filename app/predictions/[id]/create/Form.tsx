@@ -10,16 +10,16 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from "@c/ui/select";
+import { Button } from "@c/ui/button";
 import {
   Form as UIForm,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import Flag from "@/components/custom/Flag";
+} from "@c/ui/form";
+import Flag from "@c/shared/Flag";
 import { createPrediction } from "./actions";
 
 export default function Form({

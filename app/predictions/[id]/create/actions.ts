@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/client";
+import { prisma } from "@l/prisma";
 
 export const createPrediction = async (
   payload: Record<string, unknown>,

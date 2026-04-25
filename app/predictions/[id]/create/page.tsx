@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/client";
+import { prisma } from "@l/prisma";
 import Form from "./Form";
 
 export default async function Page({

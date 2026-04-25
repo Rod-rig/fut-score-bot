@@ -1,8 +1,8 @@
 "use server";
 
 import bcryptjs from "bcryptjs";
-import { RegisterSchema, RegisterSchemaType } from "@/lib/schemas/register";
-import { prisma } from "@/lib/client";
+import { RegisterSchema, RegisterSchemaType } from "@s/register";
+import { prisma } from "@l/prisma";
 
 export const createUser = async (payload: RegisterSchemaType) => {
   const validatedFields = RegisterSchema.safeParse(payload);
@@ -30,6 +30,9 @@ export const createUser = async (payload: RegisterSchemaType) => {
         email,
         hashedPassword,
         telegramId: id,
+        results: {
+          create: {},
+        },
       },
     });
   } catch (error) {

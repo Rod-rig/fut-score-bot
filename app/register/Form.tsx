@@ -3,23 +3,18 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@c/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Form as UIForm, FormField } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { RegisterSchema, RegisterSchemaType } from "@/lib/schemas/register";
+} from "@c/ui/card";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@c/ui/field";
+import { Form as UIForm, FormField } from "@c/ui/form";
+import { Input } from "@c/ui/input";
+import { RegisterSchema, RegisterSchemaType } from "@s/register";
 import { createUser } from "./actions";
 
 export function RegisterForm() {
