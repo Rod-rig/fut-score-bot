@@ -1,12 +1,17 @@
+import { getServerSession } from "next-auth/next";
 import { prisma } from "@l/prisma";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 import Form from "./Form";
+import { redirect } from "next/navigation";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/login");
+  }
+
+  const id = session.user.id;
   const events = await prisma.event.findMany({
     where: {
       status: "NOT_STARTED",

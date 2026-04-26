@@ -14,22 +14,21 @@ export default async function Page({
     include: {
       predictions: {
         orderBy: { createdAt: "desc" },
-        include: {
-          event: {
-            include: {
-              odd: true,
-            },
-          },
-        },
+        include: { event: { include: { odd: true } } },
       },
     },
   });
   return (
-    <div>
-      <div>{user?.id}</div>
-      <div>{user?.firstName}</div>
-      <div>{user?.lastName}</div>
-      <div>{user?.role}</div>
+    <>
+      <div>
+        Id: <span className="text-primary font-semibold ">{user?.id}</span>
+      </div>
+      <div className="mb-8">
+        Name:{" "}
+        <span className="text-primary font-semibold ">
+          {user?.firstName} {user?.lastName}
+        </span>
+      </div>
       <div>
         {user?.predictions.map((prediction) => (
           <div className="flex items-center mb-2" key={prediction.id}>
@@ -54,6 +53,6 @@ export default async function Page({
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }

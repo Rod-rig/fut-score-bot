@@ -24,58 +24,58 @@ export function LoginForm() {
     }
   };
   return (
-    <div className="flex flex-col gap-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <UIForm {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FieldGroup>
-                <FormField
-                  control={form.control}
-                  render={({ field }) => (
-                    <Field>
-                      <FieldLabel htmlFor="email">Email</FieldLabel>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="email@example.com"
-                        required
-                        onChange={field.onChange}
-                      />
-                    </Field>
-                  )}
-                  name="email"
-                />
-                <FormField
-                  control={form.control}
-                  render={({ field }) => (
-                    <Field>
-                      <div className="flex items-center">
-                        <FieldLabel htmlFor="password">Password</FieldLabel>
-                      </div>
-                      <Input
-                        id="password"
-                        type="password"
-                        required
-                        onChange={field.onChange}
-                        placeholder="********"
-                      />
-                    </Field>
-                  )}
-                  name="password"
-                />
-                <Field>
-                  {error}
-                  <Button type="submit">Login</Button>
-                </Field>
-              </FieldGroup>
-            </form>
-          </UIForm>
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="max-w-2xl mx-auto">
+      <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <UIForm {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldGroup>
+              <FormField
+                control={form.control}
+                render={({ field }) => (
+                  <Field>
+                    <FieldLabel htmlFor="email">Email</FieldLabel>
+                    <Input
+                      aria-label="email"
+                      id="email"
+                      type="email"
+                      placeholder="email@example.com"
+                      required
+                      onChange={field.onChange}
+                    />
+                  </Field>
+                )}
+                name="email"
+              />
+              <FormField
+                control={form.control}
+                render={({ field }) => (
+                  <Field>
+                    <div className="flex items-center">
+                      <FieldLabel htmlFor="password">Password</FieldLabel>
+                    </div>
+                    <Input
+                      aria-label="password"
+                      id="password"
+                      type="password"
+                      required
+                      onChange={field.onChange}
+                      placeholder="********"
+                    />
+                  </Field>
+                )}
+                name="password"
+              />
+              <Field>
+                {error}
+                <Button type="submit">Login</Button>
+              </Field>
+            </FieldGroup>
+          </form>
+        </UIForm>
+      </CardContent>
+    </Card>
   );
 }

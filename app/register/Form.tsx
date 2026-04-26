@@ -29,7 +29,7 @@ export function RegisterForm() {
     }
   };
   return (
-    <Card>
+    <Card className="mx-auto max-w-2xl">
       <CardHeader>
         <CardTitle>Create an account</CardTitle>
         <CardDescription>
@@ -46,6 +46,7 @@ export function RegisterForm() {
                   <Field>
                     <FieldLabel htmlFor="name">Name</FieldLabel>
                     <Input
+                      aria-label="name"
                       id="name"
                       type="text"
                       placeholder="John Doe"
@@ -62,6 +63,7 @@ export function RegisterForm() {
                   <Field>
                     <FieldLabel htmlFor="email">Email</FieldLabel>
                     <Input
+                      aria-label="email"
                       autoComplete="new-email"
                       id="email"
                       type="email"
@@ -83,6 +85,7 @@ export function RegisterForm() {
                   <Field>
                     <FieldLabel htmlFor="password">Password</FieldLabel>
                     <Input
+                      aria-label="password"
                       autoComplete="new-password"
                       id="password"
                       type="password"
@@ -105,6 +108,7 @@ export function RegisterForm() {
                       Confirm Password
                     </FieldLabel>
                     <Input
+                      aria-label="confirm-password"
                       id="confirm-password"
                       type="password"
                       required

@@ -3,14 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { Trophy, Menu, X } from "lucide-react";
 import { Button } from "@c/ui/button";
 import { Spinner } from "@c/ui/spinner";
 
 const Header = () => {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: session, status } = useSession();
   const username = session?.user?.username;
+
+  const links = [
+    { href: "/", label: "Home" },
+    { href: "/create-predictions", label: "Matches" },
+    { href: "/leaderboard", label: "Leaderboard" },
+    { href: "/rules", label: "Rules" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -28,30 +37,18 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-8 md:flex">
-            <Link
-              href="/"
-              className="text-sm font-medium text-foreground transition-colors hover:text-primary"
-            >
-              Home
-            </Link>
-            <Link
-              href="/matches"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-              Matches
-            </Link>
-            <Link
-              href="/leaderboard"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-              Leaderboard
-            </Link>
-            <Link
-              href="/rules"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-              Rules
-            </Link>
+            {links.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium text-${isActive ? "" : "muted-"}foreground transition-colors hover:text-primary`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Auth Buttons */}
@@ -76,12 +73,16 @@ const Header = () => {
           ) : (
             <div className="hidden items-center gap-3 md:flex">
               <Button
+                asChild
                 variant="ghost"
                 className="text-muted-foreground hover:text-foreground"
               >
                 <Link href="/login">Sign in</Link>
               </Button>
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button
+                asChild
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+              >
                 <Link href="/register">Sign up</Link>
               </Button>
             </div>
@@ -104,42 +105,31 @@ const Header = () => {
         {mobileMenuOpen && (
           <div className="border-t border-border/50 py-4 md:hidden">
             <nav className="flex flex-col gap-4">
-              <Link
-                href="/"
-                className="text-sm font-medium text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/matches"
-                className="text-sm font-medium text-muted-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Matches
-              </Link>
-              <Link
-                href="/leaderboard"
-                className="text-sm font-medium text-muted-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Leaderboard
-              </Link>
-              <Link
-                href="/rules"
-                className="text-sm font-medium text-muted-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Rules
-              </Link>
+              {links.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`text-sm font-medium text-${isActive ? "" : "muted-"}foreground transition-colors hover:text-primary`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <div className="flex flex-col gap-2 pt-4">
                 <Button
+                  asChild
                   variant="ghost"
                   className="w-full justify-center text-muted-foreground"
                 >
                   <Link href="/login">Sign in</Link>
                 </Button>
-                <Button className="w-full bg-primary text-primary-foreground">
+                <Button
+                  asChild
+                  className="w-full bg-primary text-primary-foreground"
+                >
                   <Link href="/register">Sign up</Link>
                 </Button>
               </div>

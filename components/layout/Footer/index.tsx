@@ -1,9 +1,9 @@
-import Link from "next/link"
-import { Trophy } from "lucide-react"
+import Link from "next/link";
+import { Trophy } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border/50 bg-card">
+    <footer className="border-t border-border/50 bg-card shrink-0">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
@@ -17,8 +17,8 @@ const Footer = () => {
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              The ultimate platform for football match predictions.
-              Compete with friends and climb to the top of the leaderboard!
+              The ultimate platform for football match predictions. Compete with
+              friends and climb to the top of the leaderboard!
             </p>
           </div>
 
@@ -29,17 +29,26 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/matches" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/create-predictions"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   Matches
                 </Link>
               </li>
               <li>
-                <Link href="/leaderboard" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/leaderboard"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   Leaderboard
                 </Link>
               </li>
@@ -52,17 +61,26 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/rules" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/rules"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   Rules
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/faq"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/contact"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   Contact
                 </Link>
               </li>
@@ -75,12 +93,18 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/privacy" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/privacy"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/terms"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
                   Terms of Service
                 </Link>
               </li>
@@ -96,7 +120,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

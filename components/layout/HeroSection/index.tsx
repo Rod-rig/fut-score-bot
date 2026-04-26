@@ -1,14 +1,13 @@
-"use client";
-
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Trophy, Target, Users, Zap } from "lucide-react";
 import { Button } from "@c/ui/button";
+import { prisma } from "@l/prisma";
+import { formatRoundedPlus } from "@u/formatRoundedPlus";
 
-const HeroSection = () => {
-  const { data } = useSession();
-  const id = data?.user?.id;
-
+const HeroSection = async () => {
+  const usersCount = await prisma.user.count();
+  const predictionsCount = await prisma.prediction.count();
+  const eventsCount = await prisma.event.count();
   return (
     <section className="relative overflow-hidden py-20 md:py-32">
       {/* Background Pattern */}
@@ -42,17 +41,19 @@ const HeroSection = () => {
           {/* CTA Buttons */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button
+              asChild
               size="lg"
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto"
             >
-              <Link href={`/predictions/${id}/create`}>Start Predicting</Link>
+              <Link href="/create-predictions">Start Predicting</Link>
             </Button>
             <Button
+              asChild
               size="lg"
               variant="outline"
               className="w-full border-border text-foreground hover:bg-secondary sm:w-auto"
             >
-              Learn More
+              <Link href="/rules">Learn More</Link>
             </Button>
           </div>
 
@@ -62,24 +63,43 @@ const HeroSection = () => {
               <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
                 <Users className="h-6 w-6 text-primary" />
               </div>
-              <p className="text-3xl font-bold text-foreground">2,500+</p>
+              <p className="text-3xl font-bold text-foreground">
+                {formatRoundedPlus(usersCount)}
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">Participants</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
                 <Target className="h-6 w-6 text-primary" />
               </div>
-              <p className="text-3xl font-bold text-foreground">45,000+</p>
+              <p className="text-3xl font-bold text-foreground">
+                {formatRoundedPlus(predictionsCount)}
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">Predictions</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
                 <Trophy className="h-6 w-6 text-primary" />
               </div>
-              <p className="text-3xl font-bold text-foreground">120+</p>
+              <p className="text-3xl font-bold text-foreground">
+                {formatRoundedPlus(eventsCount)}
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">Matches</p>
             </div>
             <div className="text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <Zap className="h-6 w-6 text-primary" />
+              </div>
+              <p className="text-3xl font-bold text-foreground">
+                {Math.round(
+                  (Number(predictionsCount) / Number(eventsCount)) * 100,
+                ) / 100}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Average predictions per match
+              </p>
+            </div>
+            <div className="text-center hidden">
               <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
                 <Zap className="h-6 w-6 text-primary" />
               </div>
