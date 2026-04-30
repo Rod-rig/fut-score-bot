@@ -1,7 +1,7 @@
-export const evaluatePrediction = (prediction: any) => {
-  const predictedScore = prediction.value;
-  const actualScore = prediction.event?.score;
-  const odds = prediction.event?.odd;
+export const evaluatePrediction = (prediction: any, event: any) => {
+  const predictedScore = prediction?.value;
+  const actualScore = event?.score;
+  const odds = event?.odd;
 
   if (!predictedScore || !actualScore || !odds) {
     return {
@@ -52,4 +52,4 @@ export const evaluatePrediction = (prediction: any) => {
     points: 0,
     status: "Incorrect",
   };
-}
+};

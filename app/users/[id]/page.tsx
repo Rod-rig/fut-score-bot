@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { Target } from "lucide-react";
 import { Badge } from "@c/ui/badge";
@@ -113,7 +114,7 @@ export default async function Page({
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-6">
             <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-primary text-3xl font-bold text-primary-foreground">
-              {getUserInitials(user?.firstName ?? '', user?.lastName ?? '')}
+              {getUserInitials(user?.firstName ?? "", user?.lastName ?? "")}
             </div>
             <div>
               <div className="flex items-center gap-3">
@@ -240,7 +241,9 @@ export default async function Page({
               <p className="text-2xl font-bold text-foreground">
                 {user?.results?.international}
               </p>
-              <p className="text-sm text-muted-foreground">International points</p>
+              <p className="text-sm text-muted-foreground">
+                International points
+              </p>
             </div>
           </div>
         </div>
@@ -302,13 +305,15 @@ export default async function Page({
             </thead>
             <tbody className="divide-y divide-border/40">
               {user?.predictions.map((pred, index) => {
-                const { points, status } = evaluatePrediction(pred);
+                const { points, status } = evaluatePrediction(pred, pred.event);
                 const isCorrect = status === "Correct";
                 const isInCorrect = status === "Incorrect";
                 return (
                   <tr key={index} className="hover:bg-primary/5">
                     <td className="px-6 py-4 text-foreground">
-                      {pred.event.home} vs {pred.event.away}
+                      <Link href={`/events/${pred.event.id}`}>
+                        {pred.event.home} vs {pred.event.away}
+                      </Link>
                     </td>
                     <td className="px-6 py-4 text-center font-semibold text-foreground">
                       {pred.value}
