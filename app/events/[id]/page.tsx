@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
 import { Badge } from "@c/ui/badge";
 import Flag from "@c/shared/Flag";
@@ -47,6 +47,11 @@ export default async function Page({
       odd: true,
     },
   });
+
+  if (!event) {
+    notFound();
+  }
+
   const currentUserPrediction = await prisma.prediction.findUnique({
     where: { userId_eventId: { userId, eventId: parseInt(id) } },
   });
@@ -60,7 +65,6 @@ export default async function Page({
   if (isFinished) {
     [home, away] = event.score.split(":");
   }
-  console.log(event);
   return (
     <>
       {/* Back Button */}
@@ -294,7 +298,7 @@ export default async function Page({
         {/* Sidebar */}
         <div className="space-y-6">
           {/* User's Prediction Result */}
-          {isFinished && Boolean(currentUserPrediction) && (
+          {isFinished && currentUserPrediction !== null && (
             <div className="rounded-xl border border-primary/50 bg-card/50 p-6">
               <h3 className="mb-6 text-lg font-semibold text-foreground flex items-center gap-2">
                 <Trophy className="h-5 w-5 text-primary" />

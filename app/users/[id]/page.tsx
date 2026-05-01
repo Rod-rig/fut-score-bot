@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Prisma } from "@prisma/client";
 import { Target } from "lucide-react";
 import { Badge } from "@c/ui/badge";
@@ -107,6 +108,11 @@ export default async function Page({
       results: true,
     },
   });
+
+  if (!user) {
+    notFound();
+  }
+
   const count = await prisma.prediction.count({ where: { userId: id } });
   return (
     <>
