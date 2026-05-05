@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { Trophy, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Logo from "@c/shared/Logo";
 import { Button } from "@c/ui/button";
 import { Spinner } from "@c/ui/spinner";
 
@@ -26,13 +27,8 @@ const Header = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-              <Trophy className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-foreground">
-              Fut<span className="text-primary">Score</span>
-            </span>
+          <Link href="/" aria-label="Go to homepage">
+            <Logo />
           </Link>
 
           {/* Desktop Navigation */}
@@ -118,21 +114,41 @@ const Header = () => {
                   </Link>
                 );
               })}
-              <div className="flex flex-col gap-2 pt-4">
-                <Button
-                  asChild
-                  variant="ghost"
-                  className="w-full justify-center text-muted-foreground"
-                >
-                  <Link href="/login">Sign in</Link>
+              {status === "loading" ? (
+                <Button disabled size="sm">
+                  <Spinner /> Loading profile
                 </Button>
-                <Button
-                  asChild
-                  className="w-full bg-primary text-primary-foreground"
-                >
-                  <Link href="/register">Sign up</Link>
-                </Button>
-              </div>
+              ) : session ? (
+                <div className="md:hidden items-center gap-3 flex justify-between">
+                  <div className="text-sm">
+                    Hello <span className="text-primary">{username}</span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-foreground"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                  >
+                    Sign out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 pt-4">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="w-full justify-center text-muted-foreground"
+                  >
+                    <Link href="/login">Sign in</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    className="w-full bg-primary text-primary-foreground"
+                  >
+                    <Link href="/register">Sign up</Link>
+                  </Button>
+                </div>
+              )}
             </nav>
           </div>
         )}

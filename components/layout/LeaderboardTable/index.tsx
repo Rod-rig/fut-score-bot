@@ -59,7 +59,7 @@ const LeaderboardTable = ({
             {participants.map((participant: Participant, index: number) => (
               <div
                 key={participant.id}
-                className={`grid grid-cols-12 items-center gap-4 px-6 py-4 transition-colors hover:bg-secondary/30 ${
+                className={`grid grid-cols-12 items-center gap-4 px-3 py-2 sm:px-6 sm:py-4 transition-colors hover:bg-secondary/30 ${
                   index < 3 ? "bg-secondary/20" : ""
                 }`}
               >

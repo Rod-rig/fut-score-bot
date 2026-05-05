@@ -1,18 +1,11 @@
-import { Trophy } from "lucide-react";
+import Logo from "@c/shared/Logo";
 
 export default function Loading() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background">
       <div className="flex flex-col items-center gap-6">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-            <Trophy className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="text-2xl font-bold text-foreground">
-            Fut<span className="text-primary">Score</span>
-          </span>
-        </div>
+        <Logo />
 
         {/* Spinner */}
         <div className="relative">

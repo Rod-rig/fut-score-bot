@@ -25,64 +25,6 @@ import { Badge } from "@c/ui/badge";
 import { formatCustomDate } from "@u/formatCustomDate";
 import { createPrediction } from "./actions";
 
-const upcomingMatches = [
-  {
-    id: "1",
-    homeTeam: "Manchester United",
-    awayTeam: "Liverpool",
-    league: "Premier League",
-    date: "2026-04-28",
-    time: "17:30",
-    predictions: 45,
-    homeTeamShort: "MUN",
-    awayTeamShort: "LIV",
-  },
-  {
-    id: "2",
-    homeTeam: "Real Madrid",
-    awayTeam: "Barcelona",
-    league: "La Liga",
-    date: "2026-04-28",
-    time: "21:00",
-    predictions: 78,
-    homeTeamShort: "RMA",
-    awayTeamShort: "BAR",
-  },
-  {
-    id: "3",
-    homeTeam: "Bayern Munich",
-    awayTeam: "Borussia Dortmund",
-    league: "Bundesliga",
-    date: "2026-04-29",
-    time: "18:30",
-    predictions: 32,
-    homeTeamShort: "BAY",
-    awayTeamShort: "BVB",
-  },
-  {
-    id: "4",
-    homeTeam: "Inter Milan",
-    awayTeam: "AC Milan",
-    league: "Serie A",
-    date: "2026-04-29",
-    time: "20:45",
-    predictions: 56,
-    homeTeamShort: "INT",
-    awayTeamShort: "ACM",
-  },
-  {
-    id: "5",
-    homeTeam: "Paris Saint-Germain",
-    awayTeam: "Olympique Marseille",
-    league: "Ligue 1",
-    date: "2026-04-30",
-    time: "21:00",
-    predictions: 41,
-    homeTeamShort: "PSG",
-    awayTeamShort: "OLM",
-  },
-];
-
 export default function Form({
   events,
   userId,
@@ -96,7 +38,6 @@ export default function Form({
       {},
     ),
   );
-  console.log(events);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -104,7 +45,22 @@ export default function Form({
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     await createPrediction(data, userId);
   };
-  return (
+  return events.length === 0 ? (
+    <>
+      {/* Empty State Info */}
+      {events.length === 0 && (
+        <div className="rounded-xl border border-border/40 bg-card/50 p-12 text-center">
+          <Calendar className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+          <h3 className="text-lg font-semibold text-foreground">
+            No upcoming matches
+          </h3>
+          <p className="mt-2 text-muted-foreground">
+            Check back later for new matches to predict.
+          </p>
+        </div>
+      )}
+    </>
+  ) : (
     <UIForm {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Header */}
@@ -128,9 +84,8 @@ export default function Form({
           {events.map((match) => {
             const { date, hours } = formatCustomDate(match.startDate);
             return (
-              <Link
+              <div
                 key={match.id}
-                href={`/events/${match.id}`}
                 className="group flex items-center rounded-xl border border-border/40 bg-card/50 p-4 transition-all hover:border-primary/50 hover:bg-card sm:p-6"
               >
                 {/* Date/Time Column */}
@@ -143,16 +98,8 @@ export default function Form({
                   </span>
                 </div>
 
-                {/* Mobile Date */}
-                <div className="mr-4 flex w-16 shrink-0 flex-col items-center sm:hidden">
-                  <span className="text-xs text-muted-foreground">{date}</span>
-                  <span className="text-sm font-bold text-primary">
-                    {hours}
-                  </span>
-                </div>
-
                 {/* Teams */}
-                <div className="flex flex-1 items-center justify-center gap-3 sm:gap-6">
+                <div className="flex flex-1 items-center justify-center gap-3 sm:gap-6 flex-wrap sm:flex-nowrap">
                   {/* Home Team */}
                   <div className="flex flex-1 items-center justify-end gap-2 sm:gap-4">
                     <Flag name={match.flagHome} />
@@ -161,8 +108,10 @@ export default function Form({
                     </span>
                   </div>
 
+                  <div className="text-muted-foreground sm:hidden">vs</div>
+
                   {/* VS */}
-                  <div className="">
+                  <div className="order-3 sm:order-2 sm:w-40 w-full">
                     <FormField
                       control={form.control}
                       name={match.id.toString()}
@@ -170,11 +119,14 @@ export default function Form({
                         <FormItem>
                           <Select onValueChange={field.onChange}>
                             <FormControl>
-                              <SelectTrigger className="w-50">
+                              <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select prediction" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent
+                              align="center"
+                              position="item-aligned"
+                            >
                               {match.odd?.zeroZero && (
                                 <SelectItem value="0:0">
                                   0:0 = {match.odd.zeroZero}pts
@@ -262,9 +214,8 @@ export default function Form({
                       )}
                     />
                   </div>
-
                   {/* Away Team */}
-                  <div className="flex flex-1 items-center gap-2 sm:gap-4">
+                  <div className="sm:order-2 flex flex-1 items-center gap-2 sm:gap-4">
                     <span className="text-sm font-medium text-foreground sm:text-base">
                       {match.away}
                     </span>
@@ -273,43 +224,43 @@ export default function Form({
                 </div>
 
                 {/* Meta & CTA */}
-                <div className="ml-4 hidden shrink-0 items-center gap-6 border-l border-border/40 pl-6 sm:flex">
+                <div className="w-60 ml-4 hidden justify-end items-center gap-6 border-l border-border/40 pl-6 sm:flex">
                   <div className="flex flex-col items-center">
-                    <Badge variant="outline" className="mb-1 text-xs">
+                    <Badge
+                      variant="outline"
+                      className="mb-1 text-xs whitespace-normal"
+                    >
                       {match.tournament}
                     </Badge>
                     <span className="flex items-center gap-1 text-xs text-muted-foreground">
                       <Users className="h-3 w-3" />
-                      15
+                      {match._count.predictions}
                     </span>
                   </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                  <Link href={`/events/${match.id}`}>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                  </Link>
                 </div>
 
                 {/* Mobile CTA */}
                 <div className="ml-2 sm:hidden">
-                  <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+                  <Link href={`/events/${match.id}`}>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+                  </Link>
                 </div>
-              </Link>
+              </div>
             );
           })}
-          <Button type="submit" className="cursor-pointer">
-            Send Prediction
-          </Button>
-        </div>
-
-        {/* Empty State Info */}
-        {upcomingMatches.length === 0 && (
-          <div className="rounded-xl border border-border/40 bg-card/50 p-12 text-center">
-            <Calendar className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-            <h3 className="text-lg font-semibold text-foreground">
-              No upcoming matches
-            </h3>
-            <p className="mt-2 text-muted-foreground">
-              Check back later for new matches to predict.
-            </p>
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={form.formState.isSubmitting}
+            >
+              Send Prediction
+            </Button>
           </div>
-        )}
+        </div>
 
         {/* Info Card */}
         <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-6">

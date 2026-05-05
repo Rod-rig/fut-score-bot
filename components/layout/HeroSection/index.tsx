@@ -9,7 +9,7 @@ const HeroSection = async () => {
   const predictionsCount = await prisma.prediction.count();
   const eventsCount = await prisma.event.count();
   return (
-    <section className="relative overflow-hidden py-20 md:py-32">
+    <section className="relative overflow-hidden md:py-20">
       {/* Background Pattern */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />

@@ -12,6 +12,10 @@ const geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Fut Score",
   description: "Fut score app",
+  icons: {
+    icon: "./favicon.ico",
+    apple: "./favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -21,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Providers>
           <Header />
           <main className="flex-1">
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-2 py-12 sm:px-6 lg:px-8">
               {children}
             </div>
           </main>

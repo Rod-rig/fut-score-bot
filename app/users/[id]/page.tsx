@@ -116,15 +116,15 @@ export default async function Page({
   const count = await prisma.prediction.count({ where: { userId: id } });
   return (
     <>
-      <div className="mb-8 rounded-xl border border-border/40 bg-card/50 p-8">
+      <div className="mb-8 rounded-xl border border-border/40 bg-card/50 sm:p-8 p-2">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-6">
-            <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-primary text-3xl font-bold text-primary-foreground">
+          <div className="flex items-start gap-2 sm:gap-6">
+            <div className="flex h-18 sm:h-24 w-18 sm:w-24 items-center justify-center rounded-2xl bg-primary text-3xl font-bold text-primary-foreground">
               {getUserInitials(user?.firstName ?? "", user?.lastName ?? "")}
             </div>
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-3xl font-bold text-foreground">
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
                   {user?.firstName} {user?.lastName}
                 </h1>
                 {/*<Badge className="bg-primary text-primary-foreground">
@@ -136,7 +136,7 @@ export default async function Page({
                 Member since {new Date(user.createdAt).toLocaleDateString()}
               </p>
               {Boolean(user?.results) && (
-                <div className="mt-3 flex items-center gap-2">
+                <div className="mt-2 flex items-center gap-2">
                   <span className="text-2xl font-bold text-primary">
                     {user?.results?.total}
                   </span>
@@ -288,76 +288,80 @@ export default async function Page({
         </div>*/}
       </div>
 
-      <div className="rounded-xl border border-border/40 bg-card/50 overflow-hidden">
-        <div className="p-6 border-b border-border/40">
-          <h3 className="text-lg font-semibold text-foreground">
-            {take} Recent Predictions
-          </h3>
+      {user.predictions.length > 0 && (
+        <div className="rounded-xl border border-border/40 bg-card/50 overflow-hidden">
+          <div className="p-6 border-b border-border/40">
+            <h3 className="text-lg font-semibold text-foreground">
+              {take} Recent Predictions
+            </h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border/40 text-left text-xs uppercase tracking-wider text-muted-foreground">
+                  <th className="px-6 py-4 font-medium">Match</th>
+                  <th className="px-6 py-4 font-medium text-center">
+                    Your Prediction
+                  </th>
+                  <th className="px-6 py-4 font-medium text-center">
+                    Actual Result
+                  </th>
+                  <th className="px-6 py-4 font-medium text-center">Points</th>
+                  <th className="px-6 py-4 font-medium text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/40">
+                {user?.predictions.map((pred, index) => {
+                  const { points, status } = evaluatePrediction(
+                    pred,
+                    pred.event,
+                  );
+                  const isCorrect = status === "Correct";
+                  const isInCorrect = status === "Incorrect";
+                  return (
+                    <tr key={index} className="hover:bg-primary/5">
+                      <td className="px-6 py-4 text-foreground">
+                        <Link href={`/events/${pred.event.id}`}>
+                          {pred.event.home} vs {pred.event.away}
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4 text-center font-semibold text-foreground">
+                        {pred.value}
+                      </td>
+                      <td className="px-6 py-4 text-center font-semibold text-primary">
+                        {pred.event.score}
+                      </td>
+                      <td className="px-6 py-4 text-center font-semibold text-primary">
+                        +{points}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <Badge
+                          variant={
+                            isCorrect
+                              ? "default"
+                              : isInCorrect
+                                ? "destructive"
+                                : "secondary"
+                          }
+                          className={
+                            isCorrect
+                              ? "bg-primary/20 text-primary"
+                              : isInCorrect
+                                ? "bg-destructive/20 text-destructive"
+                                : "bg-secondary text-muted-foreground"
+                          }
+                        >
+                          {status}
+                        </Badge>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border/40 text-left text-xs uppercase tracking-wider text-muted-foreground">
-                <th className="px-6 py-4 font-medium">Match</th>
-                <th className="px-6 py-4 font-medium text-center">
-                  Your Prediction
-                </th>
-                <th className="px-6 py-4 font-medium text-center">
-                  Actual Result
-                </th>
-                <th className="px-6 py-4 font-medium text-center">Points</th>
-                <th className="px-6 py-4 font-medium text-center">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/40">
-              {user?.predictions.map((pred, index) => {
-                const { points, status } = evaluatePrediction(pred, pred.event);
-                const isCorrect = status === "Correct";
-                const isInCorrect = status === "Incorrect";
-                return (
-                  <tr key={index} className="hover:bg-primary/5">
-                    <td className="px-6 py-4 text-foreground">
-                      <Link href={`/events/${pred.event.id}`}>
-                        {pred.event.home} vs {pred.event.away}
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4 text-center font-semibold text-foreground">
-                      {pred.value}
-                    </td>
-                    <td className="px-6 py-4 text-center font-semibold text-primary">
-                      {pred.event.score}
-                    </td>
-                    <td className="px-6 py-4 text-center font-semibold text-primary">
-                      +{points}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <Badge
-                        variant={
-                          isCorrect
-                            ? "default"
-                            : isInCorrect
-                              ? "destructive"
-                              : "secondary"
-                        }
-                        className={
-                          isCorrect
-                            ? "bg-primary/20 text-primary"
-                            : isInCorrect
-                              ? "bg-destructive/20 text-destructive"
-                              : "bg-secondary text-muted-foreground"
-                        }
-                      >
-                        {status}
-                      </Badge>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
+      )}
       {/*<div className="rounded-xl border border-border/40 bg-card/50 p-6">
         <h3 className="mb-6 text-lg font-semibold text-foreground">
           Weekly Points History

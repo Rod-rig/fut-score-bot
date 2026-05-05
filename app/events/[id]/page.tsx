@@ -38,10 +38,15 @@ export default async function Page({
     redirect("/");
   }
 
-  const userId = session.user.id;
   const { id } = await params;
+  if (!id || isNaN(parseInt(id))) {
+    notFound();
+  }
+
+  const eventId = parseInt(id);
+  const userId = session.user.id;
   const event: EventWithPredictions = await prisma.event.findUnique({
-    where: { id: parseInt(id) },
+    where: { id: eventId },
     include: {
       predictions: { orderBy: { updatedAt: "asc" }, include: { user: true } },
       odd: true,
@@ -53,7 +58,7 @@ export default async function Page({
   }
 
   const currentUserPrediction = await prisma.prediction.findUnique({
-    where: { userId_eventId: { userId, eventId: parseInt(id) } },
+    where: { userId_eventId: { userId, eventId } },
   });
   const { points, status } = evaluatePrediction(currentUserPrediction, event);
   const scores = event.predictions.map((p) => p.value);
@@ -80,7 +85,7 @@ export default async function Page({
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Match Card */}
-          <div className="rounded-xl border border-border/40 bg-card/50 p-8">
+          <div className="rounded-xl border border-border/40 bg-card/50 p-4 sm:p-8">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <Badge variant="outline">{event.tournament}</Badge>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -107,7 +112,7 @@ export default async function Page({
                 <p className="text-sm text-muted-foreground">Home</p>
               </div>
 
-              <div className="px-8">
+              <div className="px-2 sm:px-8">
                 {isFinished ? (
                   <div className="text-center">
                     <div className="flex items-center gap-3">
@@ -128,7 +133,7 @@ export default async function Page({
                     )}
                   </div>
                 ) : (
-                  <div className="text-3xl font-bold text-muted-foreground">
+                  <div className="text-2xl font-bold text-muted-foreground">
                     VS
                   </div>
                 )}
@@ -147,7 +152,7 @@ export default async function Page({
             </div>
 
             {/* Betting Odds */}
-            <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+            <div className="rounded-xl border border-border/40 bg-card/50 p-4 sm:p-6">
               <h3 className="mb-6 text-lg font-semibold text-foreground">
                 Betting Odds
               </h3>

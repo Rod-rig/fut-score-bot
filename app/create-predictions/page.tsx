@@ -17,12 +17,8 @@ export default async function Page() {
       status: "NOT_STARTED",
       predictions: { none: { userId: { equals: id } } },
     },
-    include: { odd: true },
+    include: { odd: true, _count: { select: { predictions: true } } },
   });
 
-  return events.length > 0 ? (
-    <Form events={events} userId={id} />
-  ) : (
-    <div>Predictions are not available now. Please come back later</div>
-  );
+  return <Form events={events} userId={id} />;
 }

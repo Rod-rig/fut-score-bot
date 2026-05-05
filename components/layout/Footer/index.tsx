@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Trophy } from "lucide-react";
+import Logo from "@c/shared/Logo";
 
 const Footer = () => {
   return (
@@ -8,13 +9,8 @@ const Footer = () => {
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <Trophy className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-foreground">
-                Fut<span className="text-primary">Score</span>
-              </span>
+            <Link href="/" aria-label="Go to homepage">
+              <Logo />
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               The ultimate platform for football match predictions. Compete with
@@ -68,7 +64,7 @@ const Footer = () => {
                   Rules
                 </Link>
               </li>
-              <li>
+              {/*<li>
                 <Link
                   href="/faq"
                   className="text-sm text-muted-foreground transition-colors hover:text-primary"
@@ -83,7 +79,7 @@ const Footer = () => {
                 >
                   Contact
                 </Link>
-              </li>
+              </li>*/}
             </ul>
           </div>
 
@@ -100,14 +96,14 @@ const Footer = () => {
                   Privacy Policy
                 </Link>
               </li>
-              <li>
+              {/*<li>
                 <Link
                   href="/terms"
                   className="text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   Terms of Service
                 </Link>
-              </li>
+              </li>*/}
             </ul>
           </div>
         </div>

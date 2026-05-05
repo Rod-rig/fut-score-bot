@@ -12,12 +12,13 @@ export const createPrediction = async (
     const data = Object.keys(payload).map((key) => ({
       value: payload[key] as string,
       userId,
-      eventId: parseInt(key),
+      eventId: Number(key),
     }));
     await prisma.prediction.createMany({ data, skipDuplicates: true });
-    revalidatePath(`/prediction/${userId}/create`);
-    redirect(`/prediction/${userId}/create`);
   } catch (error) {
     console.log(error);
   }
+
+  revalidatePath(`/create-predictions`);
+  redirect(`/create-predictions`);
 };
