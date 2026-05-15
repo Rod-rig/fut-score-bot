@@ -17,11 +17,11 @@ import { Prisma } from "@prisma/client";
 import { Badge } from "@c/ui/badge";
 import Flag from "@c/shared/Flag";
 import { prisma } from "@l/prisma";
+import { authOptions } from "@l/auth";
 import { formatCustomDate } from "@u/formatCustomDate";
 import { getUserInitials } from "@u/getUserInitials";
 import { calculateAverageScore } from "@u/calculateAverageScore";
 import { evaluatePrediction } from "@u/evaluatePrediction";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
 
 type EventWithPredictions = Prisma.EventGetPayload<{
   include: { predictions: { include: { user: true } }; odd: true };
