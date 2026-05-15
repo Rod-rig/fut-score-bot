@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@c/ui/button";
 import {
   Card,
@@ -18,14 +19,18 @@ import { RegisterSchema, RegisterSchemaType } from "@s/register";
 import { createUser } from "./actions";
 
 export function RegisterForm() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
   });
   const onSubmit = async (data: RegisterSchemaType) => {
-    await createUser(data);
-    const result = await signIn("credentials", { ...data, callbackUrl: "/" });
-    if (result?.error) {
-      console.log(result.error);
+    const createUserResult = await createUser(data);
+    if (createUserResult) {
+      const result = await signIn("credentials", { ...data, callbackUrl: "/" });
+      if (result?.error) {
+        console.log(result.error);
+      }
     }
   };
   return (
@@ -94,7 +99,7 @@ export function RegisterForm() {
                       onChange={field.onChange}
                     />
                     <FieldDescription>
-                      Must be at least 8 characters long.
+                      Must be at least 6 characters long.
                     </FieldDescription>
                   </Field>
                 )}
@@ -109,6 +114,7 @@ export function RegisterForm() {
                     </FieldLabel>
                     <Input
                       aria-label="confirm-password"
+                      autoComplete="new-password"
                       id="confirm-password"
                       type="password"
                       required
@@ -124,7 +130,11 @@ export function RegisterForm() {
               />
               <FieldGroup>
                 <Field>
-                  <Button type="submit">Create Account</Button>
+                  <Button type="submit" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting
+                      ? "Creating account..."
+                      : "Create Account"}
+                  </Button>
                   <FieldDescription className="px-6 text-center">
                     Already have an account? <a href="/login">Sign in</a>
                   </FieldDescription>

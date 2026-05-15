@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcryptjs from "bcryptjs";
 import { LoginSchema } from "@s/login";
 import { prisma } from "@l/prisma";
+import { tgLog } from "@u/telegram-logger";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -47,12 +48,28 @@ export const authOptions: NextAuthOptions = {
             where: { email },
           });
 
-          if (!user || !user.hashedPassword) return null;
+          if (!user || !user.hashedPassword) {
+            await tgLog(
+              `❌ *Login failed*\nReason: Couldn't find user\nEmail: ${email}\nTime: ${new Date().toLocaleString()}`,
+            );
+            return null;
+          }
 
-          const passwordMatch = bcryptjs.compare(password, user.hashedPassword);
+          const passwordMatch = await bcryptjs.compare(
+            password,
+            user.hashedPassword,
+          );
 
-          if (!passwordMatch) return null;
+          if (!passwordMatch) {
+            await tgLog(
+              `❌ *Login failed*\nReason: Wrong password\nEmail: ${email}\nTime: ${new Date().toLocaleString()}`,
+            );
+            return null;
+          }
 
+          await tgLog(
+            `✅ *Login success*\nUser ID: ${user.id}\nUser: ${user.username ? user.username : `${user.firstName} ${user.lastName}`}\nEmail: ${email}\nTime: ${new Date().toLocaleString()}`,
+          );
           return user;
         }
         return null;

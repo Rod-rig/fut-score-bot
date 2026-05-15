@@ -43,7 +43,12 @@ export default function Form({
     resolver: zodResolver(FormSchema),
   });
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    await createPrediction(data, userId);
+    try {
+      await createPrediction(data, userId);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error creating prediction:", error);
+    }
   };
   return events.length === 0 ? (
     <>
@@ -257,7 +262,7 @@ export default function Form({
               className="w-full cursor-pointer"
               disabled={form.formState.isSubmitting}
             >
-              Send Prediction
+              {form.formState.isSubmitting ? "Sending..." : "Send Prediction"}
             </Button>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import Logo from "@c/shared/Logo";
 import { Button } from "@c/ui/button";
 import { Spinner } from "@c/ui/spinner";
+import { tgLog } from "@u/telegram-logger";
 
 const Header = () => {
   const pathname = usePathname();
@@ -21,6 +22,16 @@ const Header = () => {
     { href: "/leaderboard", label: "Leaderboard" },
     { href: "/rules", label: "Rules" },
   ];
+
+  const handleSignout = async () => {
+    const user = session?.user;
+    if (user) {
+      await tgLog(
+        `✅ *Sign out success*\nUser ID: ${user.id}\nUser: ${user.username}\nEmail: ${user.email}\nTime: ${new Date().toLocaleString()}`,
+      );
+    }
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -61,7 +72,7 @@ const Header = () => {
                 variant="ghost"
                 size="sm"
                 className="text-muted-foreground hover:text-foreground"
-                onClick={() => signOut({ callbackUrl: "/" })}
+                onClick={handleSignout}
               >
                 Sign out
               </Button>
@@ -127,7 +138,7 @@ const Header = () => {
                     variant="ghost"
                     size="sm"
                     className="text-muted-foreground hover:text-foreground"
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={handleSignout}
                   >
                     Sign out
                   </Button>

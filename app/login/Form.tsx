@@ -70,7 +70,9 @@ export function LoginForm() {
               />
               <Field>
                 {error}
-                <Button type="submit">Login</Button>
+                <Button disabled={form.formState.isSubmitting} type="submit">
+                  {form.formState.isSubmitting ? "Logging in..." : "Login"}
+                </Button>
               </Field>
             </FieldGroup>
           </form>
