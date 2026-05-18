@@ -18,7 +18,7 @@ export const fetchMatches = async (id) => {
 export const fetchMatchById = async (id) => {
   try {
     return prisma.event.findUnique({
-      where: { id },
+      where: { id: parseInt(id) },
       include: { odd: true },
     });
   } catch (error) {
