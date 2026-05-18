@@ -1,11 +1,13 @@
 import "dotenv/config";
+import prisma from "../utils/prisma.js";
 
-export const fetchHistory = async (id) => {
+export const fetchHistory = async (userId) => {
   try {
-    const response = await fetch(
-      `${process.env.ROOT_URL}/api/predictions/${id}`,
-    );
-    return await response.json();
+    return prisma.prediction.findMany({
+      where: { userId: `${userId}` },
+      include: { event: true },
+      orderBy: { event: { startDate: "asc" } },
+    });
   } catch (error) {
     console.log(error);
   }

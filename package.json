@@ -7,6 +7,7 @@
     "db": "npx prisma studio",
     "migrate": "prisma migrate dev --name init",
     "start:site": "vite",
+    "start:bot": "node ./src/bot/index.js",
     "build": "npm i && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

@@ -25,7 +25,7 @@ export function RegisterForm() {
     resolver: zodResolver(RegisterSchema),
   });
   const onSubmit = async (data: RegisterSchemaType) => {
-    const createUserResult = await createUser(data);
+    const createUserResult = await createUser(data, id);
     if (createUserResult) {
       const result = await signIn("credentials", { ...data, callbackUrl: "/" });
       if (result?.error) {
