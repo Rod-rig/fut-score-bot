@@ -16,7 +16,8 @@
     "next:dev": "next dev",
     "next:build": "next build",
     "next:start": "next start",
-    "next:lint": "next lint"
+    "next:lint": "next lint",
+    "start": "npm run next:start & npm run start:bot"
   },
   "eslintConfig": {
     "extends": [
