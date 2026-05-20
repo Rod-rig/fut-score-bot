@@ -175,7 +175,14 @@ function getChangeIndicator(change: number) {
 
 export default async function Page() {
   const users = await prisma.user.findMany({
-    include: { results: true, predictions: true },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      username: true,
+      results: { select: { total: true, prevMatchday: true } },
+      _count: { select: { predictions: true } },
+    },
     orderBy: [
       { results: { total: "desc" } },
       { predictions: { _count: "desc" } },
@@ -300,7 +307,7 @@ export default async function Page() {
                     </Link>
                   </td>
                   <td className="px-6 py-4 text-center text-muted-foreground">
-                    {user.predictions.length}
+                    {user._count.predictions ?? 0}
                   </td>
                   <td className="px-6 py-4 text-center text-muted-foreground">
                     {user?.results?.prevMatchday}

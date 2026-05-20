@@ -1,17 +1,16 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
 }
 
 model User {
   id             String       @id @default(cuid())
-  telegramId     String?      @unique
-  email          String?      @unique
+  telegramId     String?
+  email          String?
   hashedPassword String?
   firstName      String
   lastName       String?
@@ -35,6 +34,8 @@ model Results {
   prevMatchday  Float  @default(0)
   euroCups      Float  @default(0)
   user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([total(sort: Desc)])
 }
 
 model Prediction {
@@ -51,7 +52,7 @@ model Prediction {
 }
 
 model Event {
-  id          Int          @id @unique
+  id          Int          @id
   startDate   DateTime     @db.Timestamptz(6)
   createdAt   DateTime     @default(now())
   tournament  String
