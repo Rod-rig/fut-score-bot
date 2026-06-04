@@ -1,0 +1,290 @@
+"use client";
+
+import Link from "next/link";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Calendar, ChevronRight, Clock, Users } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@c/ui/select";
+import { Button } from "@c/ui/button";
+import {
+  Form as UIForm,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@c/ui/form";
+import Flag from "@c/shared/Flag";
+import { Badge } from "@c/ui/badge";
+import { formatCustomDate } from "@u/formatCustomDate";
+import { createPrediction } from "./actions";
+
+export default function Form({
+  events,
+  userId,
+}: {
+  events: any[];
+  userId: string;
+}) {
+  const FormSchema = z.strictObject(
+    events.reduce(
+      (acc, item) => ({ ...acc, [item.id]: z.optional(z.string()) }),
+      {},
+    ),
+  );
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  });
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      await createPrediction(data, userId);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error creating prediction:", error);
+    }
+  };
+  return events.length === 0 ? (
+    <>
+      {/* Empty State Info */}
+      {events.length === 0 && (
+        <div className="rounded-xl border border-border/40 bg-card/50 p-12 text-center">
+          <Calendar className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+          <h3 className="text-lg font-semibold text-foreground">
+            No upcoming matches
+          </h3>
+          <p className="mt-2 text-muted-foreground">
+            Check back later for new matches to predict.
+          </p>
+        </div>
+      )}
+    </>
+  ) : (
+    <UIForm {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <Badge
+            variant="outline"
+            className="mb-4 border-primary/50 bg-primary/10 text-primary"
+          >
+            Gameweek 30
+          </Badge>
+          <h1 className="text-3xl font-bold text-foreground sm:text-4xl">
+            Upcoming <span className="text-primary">Matches</span>
+          </h1>
+          <p className="mt-2 text-muted-foreground">
+            Select a match to make your prediction
+          </p>
+        </div>
+
+        {/* Matches List */}
+        <div className="space-y-3">
+          {events.map((match) => {
+            const { date, hours } = formatCustomDate(match.startDate);
+            return (
+              <div
+                key={match.id}
+                className="group flex items-center rounded-xl border border-border/40 bg-card/50 p-4 transition-all hover:border-primary/50 hover:bg-card sm:p-6"
+              >
+                {/* Date/Time Column */}
+                <div className="hidden w-40 shrink-0 flex-col items-center border-r border-border/40 pr-6 sm:flex">
+                  <span className="text-sm font-medium text-foreground">
+                    {date}
+                  </span>
+                  <span className="mt-1 text-lg font-bold text-primary">
+                    {hours}
+                  </span>
+                </div>
+
+                {/* Teams */}
+                <div className="flex flex-1 items-center justify-center gap-3 sm:gap-6 flex-wrap sm:flex-nowrap">
+                  {/* Home Team */}
+                  <div className="flex flex-1 items-center justify-end gap-2 sm:gap-4">
+                    <Flag name={match.flagHome} />
+                    <span className="text-right text-sm font-medium text-foreground sm:text-base">
+                      {match.home}
+                    </span>
+                  </div>
+
+                  <div className="text-muted-foreground sm:hidden">vs</div>
+
+                  {/* VS */}
+                  <div className="order-3 sm:order-2 sm:w-40 w-full">
+                    <FormField
+                      control={form.control}
+                      name={match.id.toString()}
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select onValueChange={field.onChange}>
+                            <FormControl>
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select prediction" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent
+                              align="center"
+                              position="item-aligned"
+                            >
+                              {match.odd?.zeroZero && (
+                                <SelectItem value="0:0">
+                                  0:0 = {match.odd.zeroZero}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.oneOne && (
+                                <SelectItem value="1:1">
+                                  1:1 = {match.odd.oneOne}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.twoTwo && (
+                                <SelectItem value="2:2">
+                                  2:2 = {match.odd.twoTwo}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.oneZero && (
+                                <SelectItem value="1:0">
+                                  1:0 = {match.odd.oneZero}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.twoZero && (
+                                <SelectItem value="2:0">
+                                  2:0 = {match.odd.twoZero}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.threeZero && (
+                                <SelectItem value="3:0">
+                                  3:0 = {match.odd.threeZero}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.twoOne && (
+                                <SelectItem value="2:1">
+                                  2:1 = {match.odd.twoOne}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.threeOne && (
+                                <SelectItem value="3:1">
+                                  3:1 = {match.odd.threeOne}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.threeTwo && (
+                                <SelectItem value="3:2">
+                                  3:2 = {match.odd.threeTwo}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.zeroOne && (
+                                <SelectItem value="0:1">
+                                  0:1 = {match.odd.zeroOne}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.zeroTwo && (
+                                <SelectItem value="0:2">
+                                  0:2 = {match.odd.zeroTwo}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.zeroThree && (
+                                <SelectItem value="0:3">
+                                  0:3 = {match.odd.zeroThree}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.oneTwo && (
+                                <SelectItem value="1:2">
+                                  1:2 = {match.odd.oneTwo}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.oneThree && (
+                                <SelectItem value="1:3">
+                                  1:3 = {match.odd.oneThree}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.twoThree && (
+                                <SelectItem value="2:3">
+                                  2:3 = {match.odd.twoThree}pts
+                                </SelectItem>
+                              )}
+                              {match.odd?.anyOther && (
+                                <SelectItem value="Any Other">
+                                  Any Other = {match.odd.anyOther}pts
+                                </SelectItem>
+                              )}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  {/* Away Team */}
+                  <div className="sm:order-2 flex flex-1 items-center gap-2 sm:gap-4">
+                    <span className="text-sm font-medium text-foreground sm:text-base">
+                      {match.away}
+                    </span>
+                    <Flag name={match.flagAway} />
+                  </div>
+                </div>
+
+                {/* Meta & CTA */}
+                <div className="w-60 ml-4 hidden justify-end items-center gap-6 border-l border-border/40 pl-6 sm:flex">
+                  <div className="flex flex-col items-center">
+                    <Badge
+                      variant="outline"
+                      className="mb-1 text-xs whitespace-normal"
+                    >
+                      {match.tournament}
+                    </Badge>
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Users className="h-3 w-3" />
+                      {match._count.predictions}
+                    </span>
+                  </div>
+                  <Link href={`/events/${match.id}`}>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                  </Link>
+                </div>
+
+                {/* Mobile CTA */}
+                <div className="ml-2 sm:hidden">
+                  <Link href={`/events/${match.id}`}>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Sending..." : "Send Prediction"}
+            </Button>
+          </div>
+        </div>
+
+        {/* Info Card */}
+        <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+              <Clock className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground">
+                Prediction Deadline
+              </h3>
+              <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                All predictions must be submitted at least 5 minutes before
+                kickoff. You can edit your prediction until the deadline.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </UIForm>
+  );
+}

@@ -1,11 +1,11 @@
 import "dotenv/config";
 import { stringToEmoji } from "../utils/string-to-emoji.js";
+import prisma from "../utils/prisma.js";
 
 const boldText = (text, condition) => (condition ? `<b>${text}</b>  👈` : text);
 export const fetchResults = async (currentUser, key) => {
   try {
-    const response = await fetch(`${process.env.ROOT_URL}/api/users`);
-    const users = await response.json();
+    const users = await prisma.user.findMany({ include: { results: true } });
     const field = key ? key : "total";
     const prefix = key
       ? `Total score for ${stringToEmoji(key)} ${key.toUpperCase()}\n`

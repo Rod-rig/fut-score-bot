@@ -1,0 +1,118 @@
+import Link from "next/link";
+import { Trophy, Target, Users, Zap } from "lucide-react";
+import { Button } from "@c/ui/button";
+import { prisma } from "@l/prisma";
+import { formatRoundedPlus } from "@u/formatRoundedPlus";
+
+const HeroSection = async () => {
+  const usersCount = await prisma.user.count();
+  const predictionsCount = await prisma.prediction.count();
+  const eventsCount = await prisma.event.count();
+  return (
+    <section className="relative overflow-hidden md:py-20">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-0 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-100 w-100 translate-x-1/2 translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          {/* Badge */}
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2">
+            <Trophy className="h-4 w-4 text-primary" />
+            <span className="text-sm font-medium text-primary">
+              Season 2025/26 Active
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h1 className="mx-auto max-w-4xl text-balance text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Predict the outcome of{" "}
+            <span className="text-primary">football matches</span>
+          </h1>
+
+          {/* Subheading */}
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground md:text-xl">
+            Compete with friends, make accurate predictions on your favorite
+            teams&apos; matches, and climb to the top of the leaderboard.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Button
+              asChild
+              size="lg"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto"
+            >
+              <Link href="/create-predictions">Start Predicting</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="w-full border-border text-foreground hover:bg-secondary sm:w-auto"
+            >
+              <Link href="/rules">Learn More</Link>
+            </Button>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4">
+            <div className="text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <p className="text-3xl font-bold text-foreground">
+                {formatRoundedPlus(usersCount)}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">Participants</p>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <Target className="h-6 w-6 text-primary" />
+              </div>
+              <p className="text-3xl font-bold text-foreground">
+                {formatRoundedPlus(predictionsCount)}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">Predictions</p>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <Trophy className="h-6 w-6 text-primary" />
+              </div>
+              <p className="text-3xl font-bold text-foreground">
+                {formatRoundedPlus(eventsCount)}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">Matches</p>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <Zap className="h-6 w-6 text-primary" />
+              </div>
+              <p className="text-3xl font-bold text-foreground">
+                {Math.round(
+                  (Number(predictionsCount) / Number(eventsCount)) * 100,
+                ) / 100}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Average predictions per match
+              </p>
+            </div>
+            <div className="text-center hidden">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <Zap className="h-6 w-6 text-primary" />
+              </div>
+              <p className="text-3xl font-bold text-foreground">68%</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Top 10 Accuracy
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;

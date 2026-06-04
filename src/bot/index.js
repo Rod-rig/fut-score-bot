@@ -108,3 +108,5 @@ export const startBot = () => {
   bot.on("polling_error", (error) => console.log(error.code));
   bot.on("error", (error) => console.log(error.code));
 };
+
+startBot();

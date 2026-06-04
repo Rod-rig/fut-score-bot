@@ -9,19 +9,21 @@ datasource db {
 }
 
 model User {
-  id          String       @id @unique
-  firstName   String
-  lastName    String?
-  username    String
-  createdAt   DateTime     @default(now())
-  role        Role         @default(USER)
-  predictions Prediction[]
-  results     Results?
+  id             String       @id @default(cuid())
+  telegramId     String?
+  email          String?
+  hashedPassword String?
+  firstName      String
+  lastName       String?
+  username       String
+  createdAt      DateTime     @default(now())
+  role           Role         @default(USER)
+  predictions    Prediction[]
+  results        Results?
 }
 
 model Results {
   id            Int    @id @default(autoincrement())
-  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String @unique
   total         Float  @default(0)
   england       Float  @default(0)
@@ -32,6 +34,9 @@ model Results {
   international Float  @default(0)
   prevMatchday  Float  @default(0)
   euroCups      Float  @default(0)
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([total(sort: Desc)])
 }
 
 model Prediction {
@@ -39,16 +44,16 @@ model Prediction {
   value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId])
 }
 
 model Event {
-  id          Int          @id @unique
+  id          Int          @id
   startDate   DateTime     @db.Timestamptz(6)
   createdAt   DateTime     @default(now())
   tournament  String

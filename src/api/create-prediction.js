@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { fetchMatchById } from "./fetch-matches.js";
+import prisma from "../utils/prisma.js";
 
 export const createPrediction = async (value, userId, eventId) => {
   try {
@@ -20,20 +21,17 @@ export const createPrediction = async (value, userId, eventId) => {
 
 const getPrediction = async (userId, eventId) => {
   try {
-    const response = await fetch(
-      `${process.env.ROOT_URL}/api/prediction-by-id`,
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
+    return prisma.prediction.findUnique({
+      where: {
+        userId_eventId: {
+          userId: `${userId}`,
+          eventId: parseInt(eventId),
         },
-        body: JSON.stringify({
-          userId,
-          eventId,
-        }),
       },
-    );
-    return await response.json();
+      include: {
+        event: true,
+      },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -41,16 +39,12 @@ const getPrediction = async (userId, eventId) => {
 
 const createNewPrediction = async (value, userId, eventId) => {
   try {
-    await fetch(`${process.env.ROOT_URL}/api/prediction`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
+    await prisma.prediction.create({
+      data: {
         value,
-        userId,
-        eventId,
-      }),
+        userId: `${userId}`,
+        eventId: parseInt(eventId),
+      },
     });
   } catch (error) {
     console.log(error);
@@ -59,16 +53,16 @@ const createNewPrediction = async (value, userId, eventId) => {
 
 const updatePrediction = async (value, userId, eventId) => {
   try {
-    await fetch(`${process.env.ROOT_URL}/api/prediction`, {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
+    await prisma.prediction.update({
+      where: {
+        userId_eventId: {
+          userId: `${userId}`,
+          eventId: parseInt(eventId),
+        },
       },
-      body: JSON.stringify({
+      data: {
         value,
-        userId,
-        eventId,
-      }),
+      },
     });
   } catch (error) {
     console.log(error);
