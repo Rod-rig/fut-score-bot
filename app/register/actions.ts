@@ -50,6 +50,6 @@ export const createUser = async (
     );
     return true;
   } catch (error) {
-    return { error: "Database error occurred" };
+    return false;
   }
 };

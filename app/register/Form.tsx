@@ -12,8 +12,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@c/ui/card";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@c/ui/field";
-import { Form as UIForm, FormField } from "@c/ui/form";
+import { Field, FieldDescription, FieldGroup } from "@c/ui/field";
+import {
+  Form as UIForm,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@c/ui/form";
 import { Input } from "@c/ui/input";
 import { RegisterSchema, RegisterSchemaType } from "@s/register";
 import { createUser } from "./actions";
@@ -22,15 +29,19 @@ export function RegisterForm() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const form = useForm<RegisterSchemaType>({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
     resolver: zodResolver(RegisterSchema),
   });
   const onSubmit = async (data: RegisterSchemaType) => {
+    form.clearErrors();
     const createUserResult = await createUser(data, id);
     if (createUserResult) {
-      const result = await signIn("credentials", { ...data, callbackUrl: "/" });
-      if (result?.error) {
-        console.log(result.error);
-      }
+      await signIn("credentials", { ...data, callbackUrl: "/" });
     }
   };
   return (
@@ -48,83 +59,95 @@ export function RegisterForm() {
               <FormField
                 control={form.control}
                 render={({ field }) => (
-                  <Field>
-                    <FieldLabel htmlFor="name">Name</FieldLabel>
-                    <Input
-                      aria-label="name"
-                      id="name"
-                      type="text"
-                      placeholder="John Doe"
-                      required
-                      onChange={field.onChange}
-                    />
-                  </Field>
+                  <FormItem>
+                    <FormLabel htmlFor="name">Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        aria-label="name"
+                        id="name"
+                        type="text"
+                        placeholder="John Doe"
+                        required
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
                 name="name"
               />
               <FormField
                 control={form.control}
                 render={({ field }) => (
-                  <Field>
-                    <FieldLabel htmlFor="email">Email</FieldLabel>
-                    <Input
-                      aria-label="email"
-                      autoComplete="new-email"
-                      id="email"
-                      type="email"
-                      placeholder="m@example.com"
-                      required
-                      onChange={field.onChange}
-                    />
+                  <FormItem>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        aria-label="email"
+                        autoComplete="new-email"
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                        required
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
                     <FieldDescription>
                       We&apos;ll use this to contact you. We will not share your
                       email with anyone else.
                     </FieldDescription>
-                  </Field>
+                  </FormItem>
                 )}
                 name="email"
               />
               <FormField
                 control={form.control}
                 render={({ field }) => (
-                  <Field>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Input
-                      aria-label="password"
-                      autoComplete="new-password"
-                      id="password"
-                      type="password"
-                      required
-                      placeholder="********"
-                      onChange={field.onChange}
-                    />
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        aria-label="password"
+                        autoComplete="new-password"
+                        id="password"
+                        type="password"
+                        required
+                        placeholder="********"
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
                     <FieldDescription>
                       Must be at least 6 characters long.
                     </FieldDescription>
-                  </Field>
+                  </FormItem>
                 )}
                 name="password"
               />
               <FormField
                 control={form.control}
                 render={({ field }) => (
-                  <Field>
-                    <FieldLabel htmlFor="confirm-password">
+                  <FormItem>
+                    <FormLabel htmlFor="confirm-password">
                       Confirm Password
-                    </FieldLabel>
-                    <Input
-                      aria-label="confirm-password"
-                      autoComplete="new-password"
-                      id="confirm-password"
-                      type="password"
-                      required
-                      placeholder="********"
-                      onChange={field.onChange}
-                    />
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        aria-label="confirm-password"
+                        autoComplete="new-password"
+                        id="confirm-password"
+                        type="password"
+                        required
+                        placeholder="********"
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
                     <FieldDescription>
                       Please confirm your password.
                     </FieldDescription>
-                  </Field>
+                  </FormItem>
                 )}
                 name="confirmPassword"
               />

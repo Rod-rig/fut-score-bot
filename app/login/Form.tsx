@@ -1,27 +1,49 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Button } from "@c/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@c/ui/card";
-import { Field, FieldGroup, FieldLabel } from "@c/ui/field";
-import { Form as UIForm, FormField } from "@c/ui/form";
+import { FieldGroup } from "@c/ui/field";
+import {
+  Form as UIForm,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@c/ui/form";
 import { Input } from "@c/ui/input";
 import { LoginSchema, LoginSchemaType } from "@s/login";
 
 export function LoginForm() {
-  const [error, setError] = useState<string | undefined>();
+  const router = useRouter();
   const form = useForm<LoginSchemaType>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onBlur",
     resolver: zodResolver(LoginSchema),
   });
   const onSubmit = async (data: LoginSchemaType) => {
-    setError(undefined);
-    const result = await signIn("credentials", { ...data, callbackUrl: "/" });
+    form.clearErrors();
+
+    const result = await signIn("credentials", {
+      ...data,
+      redirect: false,
+    });
+
     if (result?.error) {
-      setError("Wrong email or password");
+      const error = { type: "server", message: "Invalid email or password" };
+      form.setError("email", error);
+      form.setError("password", error);
+      return;
     }
+
+    router.push("/");
   };
   return (
     <Card className="max-w-2xl mx-auto">
@@ -35,45 +57,45 @@ export function LoginForm() {
               <FormField
                 control={form.control}
                 render={({ field }) => (
-                  <Field>
-                    <FieldLabel htmlFor="email">Email</FieldLabel>
-                    <Input
-                      aria-label="email"
-                      id="email"
-                      type="email"
-                      placeholder="email@example.com"
-                      required
-                      onChange={field.onChange}
-                    />
-                  </Field>
+                  <FormItem>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        aria-label="email"
+                        id="email"
+                        type="email"
+                        placeholder="email@example.com"
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
                 name="email"
               />
               <FormField
                 control={form.control}
                 render={({ field }) => (
-                  <Field>
-                    <div className="flex items-center">
-                      <FieldLabel htmlFor="password">Password</FieldLabel>
-                    </div>
-                    <Input
-                      aria-label="password"
-                      id="password"
-                      type="password"
-                      required
-                      onChange={field.onChange}
-                      placeholder="********"
-                    />
-                  </Field>
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        aria-label="password"
+                        id="password"
+                        type="password"
+                        required
+                        onChange={field.onChange}
+                        placeholder="********"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
                 name="password"
               />
-              <Field>
-                {error}
-                <Button disabled={form.formState.isSubmitting} type="submit">
-                  {form.formState.isSubmitting ? "Logging in..." : "Login"}
-                </Button>
-              </Field>
+              <Button disabled={form.formState.isSubmitting} type="submit">
+                {form.formState.isSubmitting ? "Logging in..." : "Login"}
+              </Button>
             </FieldGroup>
           </form>
         </UIForm>
