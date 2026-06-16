@@ -23,6 +23,9 @@ export const LeaderboardTable = async ({
   const session = await getServerSession(authOptions);
   const userId = session?.user.id;
   const checkCurrentUser = (id: string) => userId === id;
+  const showPrevGWColumn = !filter;
+  const pointsText =
+    filter?.includes("Percentage") || filter?.includes("roi") ? "%" : "points";
 
   return (
     <div className="overflow-hidden rounded-xl border border-border/40 bg-card/50">
@@ -33,10 +36,12 @@ export const LeaderboardTable = async ({
               <th className="px-6 py-4 font-medium w-20">Position</th>
               <th className="px-6 py-4 font-medium">Participant</th>
               <th className="px-6 py-4 font-medium text-center">Predictions</th>
-              <th className="px-6 py-4 font-medium text-center">
-                Prev Gameweek
-              </th>
-              <th className="px-6 py-4 font-medium text-right">Points</th>
+              {showPrevGWColumn && (
+                <th className="px-6 py-4 font-medium text-center">
+                  Prev Gameweek
+                </th>
+              )}
+              <th className="px-6 py-4 font-medium text-right">{pointsText}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/40">
@@ -91,11 +96,13 @@ export const LeaderboardTable = async ({
                   >
                     {user._count.predictions ?? 0}
                   </td>
-                  <td
-                    className={`px-6 py-4 text-center ${isCurrentUser ? "text-foreground" : "text-muted-foreground"}`}
-                  >
-                    {user?.results?.prevMatchday}
-                  </td>
+                  {showPrevGWColumn && (
+                    <td
+                      className={`px-6 py-4 text-center ${isCurrentUser ? "text-foreground" : "text-muted-foreground"}`}
+                    >
+                      {user?.results?.prevMatchday}
+                    </td>
+                  )}
                   <td className="px-6 py-4 text-right font-semibold text-primary">
                     {points}
                   </td>

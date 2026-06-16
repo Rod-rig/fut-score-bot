@@ -48,6 +48,50 @@ export const totalResultsButtons = {
           text: `⏮ Previous matchday`,
           callback_data: `${prefixes.results}_prevMatchday`,
         },
+        {
+          text: `2023/24 season`,
+          callback_data: `${prefixes.results}_twentyFour`,
+        },
+      ],
+      [
+        {
+          text: `2024/25 season`,
+          callback_data: `${prefixes.results}_twentyFive`,
+        },
+        {
+          text: `2025/26 season`,
+          callback_data: `${prefixes.results}_twentySix`,
+        },
+      ],
+      [
+        {
+          text: `Correct Score`,
+          callback_data: `${prefixes.results}_exactScore`,
+        },
+        {
+          text: `Correct Score, %`,
+          callback_data: `${prefixes.results}_exactScorePercentage`,
+        },
+      ],
+      [
+        {
+          text: `Correct 1X2`,
+          callback_data: `${prefixes.results}_oneXTwo`,
+        },
+        {
+          text: `Correct 1X2, %`,
+          callback_data: `${prefixes.results}_oneXTwoPercentage`,
+        },
+      ],
+      [
+        {
+          text: `Overall Profit`,
+          callback_data: `${prefixes.results}_profit`,
+        },
+        {
+          text: `ROI, %`,
+          callback_data: `${prefixes.results}_roi`,
+        },
       ],
     ],
   }),

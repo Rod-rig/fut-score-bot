@@ -10,12 +10,27 @@ export const filtersMap: Record<string, { label: string; filter: string }> = {
   italy: { label: "Italy", filter: "italy" },
   france: { label: "France", filter: "france" },
   ukraine: { label: "Ukraine", filter: "ukraine" },
-  euroCups: { label: "Euro cups", filter: "euroCups" },
+  euroCups: { label: "Eurocups", filter: "euroCups" },
   international: { label: "International", filter: "international" },
-  prevMatchday: { label: "Previous GW", filter: "prevMatchday" },
-  // { label: "2023/2024", value: "2024" },
-  // { label: "2024/2025", value: "2025" },
-  // { label: "2025/2026", value: "2026" },
+  prevMatchday: { label: "Prev GW", filter: "prevMatchday" },
+  twentyFour: { label: "2023/24", filter: "twentyFour" },
+  twentyFive: { label: "2024/25", filter: "twentyFive" },
+  twentySix: { label: "2025/26", filter: "twentySix" },
+  exactScore: { label: "Correct Score", filter: "exactScore" },
+  exactScorePercentage: {
+    label: "Correct Score, %",
+    filter: "exactScorePercentage",
+  },
+  oneXTwo: { label: "Correct 1X2", filter: "oneXTwo" },
+  oneXTwoPercentage: {
+    label: "Correct 1X2, %",
+    filter: "oneXTwoPercentage",
+  },
+  profit: { label: "Overall Profit", filter: "profit" },
+  roi: {
+    label: "ROI",
+    filter: "roi",
+  },
 } as const;
 
 export const select = {

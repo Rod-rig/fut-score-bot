@@ -5,7 +5,10 @@ import prisma from "../utils/prisma.js";
 const boldText = (text, condition) => (condition ? `<b>${text}</b>  👈` : text);
 export const fetchResults = async (currentUser, key) => {
   try {
-    const users = await prisma.user.findMany({ include: { results: true } });
+    const users = await prisma.user.findMany({
+      include: { results: true },
+      take: 50,
+    });
     const field = key ? key : "total";
     const prefix = key
       ? `Total score for ${stringToEmoji(key)} ${key.toUpperCase()}\n`
