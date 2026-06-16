@@ -19,37 +19,41 @@ const bot = initBot();
 
 export const startBot = () => {
   bot.on("message", async (message) => {
-    const id = message.chat.id;
-    await auth(bot, message.chat);
-    if (message.text === "/start") {
-      await start(bot, message);
-      await notifyMe(bot, `✅ Start to bet: ${JSON.stringify(message.chat)}`);
-    } else if (message.text === "/bet") {
-      const matches = await fetchMatches(id);
-      if (!matches || matches.length < 1) {
-        await bot.sendMessage(id, content.tech_works);
+    try {
+      const id = message.chat.id;
+      await auth(bot, message.chat);
+      if (message.text === "/start") {
+        await start(bot, message);
+        await notifyMe(bot, `✅ Start to bet: ${JSON.stringify(message.chat)}`);
+      } else if (message.text === "/bet") {
+        const matches = await fetchMatches(id);
+        if (!matches || matches.length < 1) {
+          await bot.sendMessage(id, content.tech_works);
+        } else {
+          await bot.sendMessage(id, content.bet, matchesToButtons(matches));
+        }
+      } else if (message.text === "/total_results") {
+        const results = await fetchResults(id);
+        await bot.sendMessage(id, results, {
+          ...totalResultsButtons,
+          parse_mode: "HTML",
+        });
+        await notifyMe(bot, `✅ Seen results: ${message.chat.first_name}`);
+      } else if (message.text === "/history") {
+        const predictions = await fetchHistory(id);
+        const str = predictionsToHistory(predictions);
+        try {
+          await bot.sendMessage(id, `${content.history}${str}`);
+          await notifyMe(bot, `✅ Seen history: ${message.chat.first_name}`);
+        } catch (e) {
+          console.log(e);
+        }
       } else {
-        await bot.sendMessage(id, content.bet, matchesToButtons(matches));
+        await notifyMe(bot, JSON.stringify(message));
+        await bot.sendMessage(id, content.error);
       }
-    } else if (message.text === "/total_results") {
-      const results = await fetchResults(id);
-      await bot.sendMessage(id, results, {
-        ...totalResultsButtons,
-        parse_mode: "HTML",
-      });
-      await notifyMe(bot, `✅ Seen results: ${message.chat.first_name}`);
-    } else if (message.text === "/history") {
-      const predictions = await fetchHistory(id);
-      const str = predictionsToHistory(predictions);
-      try {
-        await bot.sendMessage(id, `${content.history}${str}`);
-        await notifyMe(bot, `✅ Seen history: ${message.chat.first_name}`);
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      await notifyMe(bot, JSON.stringify(message));
-      await bot.sendMessage(id, content.error);
+    } catch (error) {
+      console.log(error.message);
     }
   });
 
