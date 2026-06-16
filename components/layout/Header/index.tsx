@@ -30,7 +30,7 @@ const Header = () => {
         `✅ *Sign out success*\nUser ID: ${user.id}\nUser: ${user.username}\nEmail: ${user.email}\nTime: ${new Date().toLocaleString()}`,
       );
     }
-    signOut({ callbackUrl: "/" });
+    await signOut({ callbackUrl: "/" });
   };
 
   return (

@@ -35,9 +35,15 @@ export const totalResultsButtons = {
       ],
       [
         {
+          text: `🇺🇦 Ukraine`,
+          callback_data: `${prefixes.results}_ukraine`,
+        },
+        {
           text: `🌍 International`,
           callback_data: `${prefixes.results}_international`,
         },
+      ],
+      [
         {
           text: `⏮ Previous matchday`,
           callback_data: `${prefixes.results}_prevMatchday`,
