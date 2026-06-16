@@ -23,19 +23,29 @@ model User {
 }
 
 model Results {
-  id            Int    @id @default(autoincrement())
-  userId        String @unique
-  total         Float  @default(0)
-  england       Float  @default(0)
-  spain         Float  @default(0)
-  germany       Float  @default(0)
-  france        Float  @default(0)
-  italy         Float  @default(0)
-  ukraine       Float  @default(0)
-  international Float  @default(0)
-  prevMatchday  Float  @default(0)
-  euroCups      Float  @default(0)
-  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   Int    @id @default(autoincrement())
+  userId               String @unique
+  total                Float  @default(0)
+  england              Float  @default(0)
+  spain                Float  @default(0)
+  germany              Float  @default(0)
+  france               Float  @default(0)
+  italy                Float  @default(0)
+  ukraine              Float  @default(0)
+  international        Float  @default(0)
+  prevMatchday         Float  @default(0)
+  euroCups             Float  @default(0)
+  twentyFour           Float  @default(0)
+  twentyFive           Float  @default(0)
+  twentySix            Float  @default(0)
+  twentySeven          Float  @default(0)
+  exactScore           Float  @default(0)
+  exactScorePercentage Float  @default(0)
+  oneXTwo              Float  @default(0)
+  oneXTwoPercentage    Float  @default(0)
+  profit               Float  @default(0)
+  roi                  Float  @default(0)
+  user                 User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([total(sort: Desc)])
 }

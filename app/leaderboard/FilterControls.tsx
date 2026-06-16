@@ -20,7 +20,7 @@ export const FilterControls = () => {
   };
 
   return (
-    <div className="mb-6 flex flex-row items-center gap-4">
+    <div className="mb-6 md:flex md:flex-row items-center gap-4">
       <span className="text-sm font-medium text-muted-foreground">
         Filters:
       </span>

@@ -228,6 +228,19 @@ export default async function Page({
         <div className="rounded-xl border border-border/40 bg-card/50 p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Flag name="🇺🇦" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.ukraine}
+              </p>
+              <p className="text-sm text-muted-foreground">Ukraine points</p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <Flag name="un" />
             </div>
             <div>
@@ -249,6 +262,139 @@ export default async function Page({
               </p>
               <p className="text-sm text-muted-foreground">
                 International points
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              23/24
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.twentyFour}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                2023/24 season points
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              24/25
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.twentyFive}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                2024/25 season points
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              25/26
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.twentySix}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                2025/26 season points
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              CS
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.exactScore}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Number of correct scores
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              CS%
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.exactScorePercentage}%
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Percentage of correct scores
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              1x2
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.oneXTwo}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Number of correct 1x2
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              1x2%
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.oneXTwoPercentage}%
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Percentage of correct 1x2
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              OP
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.profit}$
+              </p>
+              <p className="text-sm text-muted-foreground">Overall profit</p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              ROI
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.roi}%
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Return on investment
               </p>
             </div>
           </div>
