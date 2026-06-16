@@ -31,6 +31,7 @@ model Results {
   germany       Float  @default(0)
   france        Float  @default(0)
   italy         Float  @default(0)
+  ukraine       Float  @default(0)
   international Float  @default(0)
   prevMatchday  Float  @default(0)
   euroCups      Float  @default(0)
