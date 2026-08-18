@@ -8,7 +8,7 @@ export const Header = () => (
       className="mb-4 border-primary/50 bg-primary/10 text-primary"
     >
       <Trophy className="mr-2 h-3 w-3" />
-      Season 2025/26
+      Season 2026/27
     </Badge>
     <h1 className="text-4xl font-bold text-foreground">
       <span className="text-foreground">Season </span>
