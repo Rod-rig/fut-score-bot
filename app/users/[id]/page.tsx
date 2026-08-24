@@ -314,6 +314,21 @@ export default async function Page({
         <div className="rounded-xl border border-border/40 bg-card/50 p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              26/27
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-foreground">
+                {user?.results?.twentySeven}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                2026/27 season points
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
               CS
             </div>
             <div>

@@ -49,18 +49,18 @@ export const totalResultsButtons = {
           callback_data: `${prefixes.results}_prevMatchday`,
         },
         {
-          text: `2023/24 season`,
+          text: `2024/25 season`,
           callback_data: `${prefixes.results}_twentyFour`,
         },
       ],
       [
         {
-          text: `2024/25 season`,
+          text: `2025/26 season`,
           callback_data: `${prefixes.results}_twentyFive`,
         },
         {
-          text: `2025/26 season`,
-          callback_data: `${prefixes.results}_twentySix`,
+          text: `2026/27 season`,
+          callback_data: `${prefixes.results}_twentySeven`,
         },
       ],
       [
