@@ -1,9 +1,9 @@
 // src/scripts/calc-exact-score-and-1x2.ts
 
-import { prisma } from "@l/prisma";
-import { isAnyOther, isAnyOtherScore } from "@u/is-any-other";
-import { round } from "../utils/round";
-import { getResult } from "../utils/get-result";
+import { prisma } from "../../lib/prisma.ts";
+import { isAnyOther, isAnyOtherScore } from "../../utils/is-any-other.ts";
+import { round } from "../utils/round.js";
+import { getResult } from "../utils/get-result.js";
 
 /**
  * Рахує:

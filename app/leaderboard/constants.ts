@@ -16,6 +16,7 @@ export const filtersMap: Record<string, { label: string; filter: string }> = {
   twentyFour: { label: "2023/24", filter: "twentyFour" },
   twentyFive: { label: "2024/25", filter: "twentyFive" },
   twentySix: { label: "2025/26", filter: "twentySix" },
+  twentySeven: { label: "2026/27", filter: "twentySeven" },
   exactScore: { label: "Correct Score", filter: "exactScore" },
   exactScorePercentage: {
     label: "Correct Score, %",

@@ -1,7 +1,7 @@
-import { oneXTwo, scoreMapping } from "../utils/score-mapping";
-import { getResult } from "../utils/get-result";
+import { oneXTwo, scoreMapping } from "../utils/score-mapping.js";
+import { getResult } from "../utils/get-result.js";
 import { round } from "../utils/round.js";
-import { prisma } from "@l/prisma";
+import { prisma } from "../../lib/prisma.ts";
 
 type ResultField =
   | "total"
@@ -141,5 +141,5 @@ async function calculateResultsForPeriod(
 
 // Приклад виклику (розкоментуйте й викличте із середовища, яке підтримує top-level await або в async IIFE):
 (async () => {
-  await calculateResultsForPeriod("2025-08-01", "2026-07-16", "twentySix");
+  await calculateResultsForPeriod("2026-08-01", "2027-07-16", "twentySeven");
 })();
