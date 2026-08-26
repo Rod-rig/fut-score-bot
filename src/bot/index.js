@@ -15,6 +15,7 @@ import { fetchHistory } from "../api/fetch-history.js";
 import { predictionsToHistory } from "./predictions-to-history.js";
 import { totalResultsButtons } from "./total-results-buttons.js";
 import { toggleEventStatus } from "./toggle-event-status.js";
+import { setEventScore } from "./set-event-score.js";
 
 const bot = initBot();
 
@@ -51,6 +52,8 @@ export const startBot = () => {
          }
        } else if (message.text.startsWith("/toggle_event_status")) {
          await toggleEventStatus(bot, message, id);
+       } else if (message.text.startsWith("/set_event_score")) {
+         await setEventScore(bot, message, id);
        } else {
         await notifyMe(bot, JSON.stringify(message));
         await bot.sendMessage(id, content.error);
