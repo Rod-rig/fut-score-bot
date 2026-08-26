@@ -14,6 +14,7 @@ import { scoresToButtons } from "./scores-to-buttons.js";
 import { fetchHistory } from "../api/fetch-history.js";
 import { predictionsToHistory } from "./predictions-to-history.js";
 import { totalResultsButtons } from "./total-results-buttons.js";
+import { toggleEventStatus } from "./toggle-event-status.js";
 
 const bot = initBot();
 
@@ -39,16 +40,18 @@ export const startBot = () => {
           parse_mode: "HTML",
         });
         await notifyMe(bot, `✅ Seen results: ${message.chat.first_name}`);
-      } else if (message.text === "/history") {
-        const predictions = await fetchHistory(id);
-        const str = predictionsToHistory(predictions);
-        try {
-          await bot.sendMessage(id, `${content.history}${str}`);
-          await notifyMe(bot, `✅ Seen history: ${message.chat.first_name}`);
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
+       } else if (message.text === "/history") {
+         const predictions = await fetchHistory(id);
+         const str = predictionsToHistory(predictions);
+         try {
+           await bot.sendMessage(id, `${content.history}${str}`);
+           await notifyMe(bot, `✅ Seen history: ${message.chat.first_name}`);
+         } catch (e) {
+           console.log(e);
+         }
+       } else if (message.text.startsWith("/toggle_event_status")) {
+         await toggleEventStatus(bot, message, id);
+       } else {
         await notifyMe(bot, JSON.stringify(message));
         await bot.sendMessage(id, content.error);
       }

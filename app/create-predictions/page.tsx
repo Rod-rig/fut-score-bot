@@ -18,6 +18,7 @@ export default async function Page() {
       predictions: { none: { userId: { equals: id } } },
     },
     include: { odd: true, _count: { select: { predictions: true } } },
+    orderBy: { startDate: "asc" },
   });
 
   return <Form events={events} userId={id} />;
