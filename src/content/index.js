@@ -4,6 +4,7 @@ export const content = {
 
     if (role === "ADMIN") {
       baseMessage += "\n/toggle_event_status - toggle event status 🔐";
+      baseMessage += "\n/set_event_score - set event score 📊";
     }
 
     return baseMessage;
