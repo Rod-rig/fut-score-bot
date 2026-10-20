@@ -29,7 +29,11 @@ export const evaluatePrediction = (prediction: any, event: any) => {
     return "anyOther";
   };
 
-  if (predHome === actualHome && predAway === actualAway) {
+  if (
+    predictedScore === actualScore ||
+    (predictedScore.toLowerCase() === "any other" &&
+      (actualHome > 3 || actualAway > 3))
+  ) {
     const exactKey = getExactScoreKey(predHome, predAway);
 
     return {
