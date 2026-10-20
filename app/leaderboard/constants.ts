@@ -44,3 +44,11 @@ export const select = {
     _count: { select: { predictions: true } },
   },
 } satisfies Prisma.UserDefaultArgs;
+
+export const numberOfPredictionsOptions = [
+  { value: "0", label: "All" },
+  { value: "10", label: ">10 predictions" },
+  { value: "25", label: ">25 predictions" },
+  { value: "50", label: ">50 predictions" },
+  { value: "100", label: ">100 predictions" },
+] as const;

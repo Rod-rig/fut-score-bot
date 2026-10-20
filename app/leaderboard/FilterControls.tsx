@@ -1,22 +1,66 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@c/ui/button";
-import { defaultFilter, filtersMap } from "./constants";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@c/ui/select";
+import {
+  defaultFilter,
+  filtersMap,
+  numberOfPredictionsOptions,
+} from "./constants";
+import {
+  normalizeNumberOfPredictions,
+  isValidNumberOfPredictions,
+} from "./utils";
 
 export const FilterControls = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeFilter = searchParams.get("filter") || defaultFilter;
 
-  const handleFilterChange = (value: string) => () => {
-    const params = new URLSearchParams(searchParams);
-    if (value === defaultFilter) {
-      params.delete("filter");
-    } else {
-      params.set("filter", value);
+  const activeFilter = searchParams.get("filter") || defaultFilter;
+  const numberOfPredictions = normalizeNumberOfPredictions(
+    searchParams.get("numberOfPredictions"),
+  );
+
+  useEffect(() => {
+    const rawValue = searchParams.get("numberOfPredictions");
+
+    if (
+      searchParams.has("numberOfPredictions") &&
+      !isValidNumberOfPredictions(rawValue)
+    ) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("numberOfPredictions");
+      router.replace(params.toString() ? `?${params.toString()}` : "?");
     }
-    router.push(`?${params.toString()}`);
+  }, [router, searchParams]);
+
+  const updateQueryParam = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (!value || value === defaultFilter || value === "0") {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+
+    const query = params.toString();
+    router.push(query ? `?${query}` : "?");
+  };
+
+  const handleFilterChange = (value: string) => {
+    updateQueryParam("filter", value);
+  };
+
+  const handleNumberOfPredictionsChange = (value: string) => {
+    updateQueryParam("numberOfPredictions", normalizeNumberOfPredictions(value));
   };
 
   return (
@@ -30,11 +74,26 @@ export const FilterControls = () => {
             className="cursor-pointer"
             key={filter}
             variant={activeFilter === filter ? "default" : "outline"}
-            onClick={handleFilterChange(filter)}
+            onClick={() => handleFilterChange(filter)}
           >
             {label}
           </Button>
         ))}
+        <Select
+          value={numberOfPredictions}
+          onValueChange={handleNumberOfPredictionsChange}
+        >
+          <SelectTrigger aria-label="Number of Predictions">
+            <SelectValue placeholder="Number of Predictions" />
+          </SelectTrigger>
+          <SelectContent>
+            {numberOfPredictionsOptions.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );
