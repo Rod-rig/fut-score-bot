@@ -7,10 +7,13 @@ import { getUsersByFilter } from "./utils";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ filter?: string }>;
+  searchParams: Promise<{ filter?: string; numberOfPredictions?: string }>;
 }) {
   const params = await searchParams;
-  const users = await getUsersByFilter(params.filter);
+  const users = await getUsersByFilter(
+    params.filter,
+    params.numberOfPredictions,
+  );
 
   return (
     <>
