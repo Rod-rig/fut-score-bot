@@ -434,62 +434,64 @@ export default async function Page({
           </div>
 
           {/* Recent Predictions */}
-          <div className="rounded-xl border border-border/40 bg-card/50 p-6">
-            <h3 className="mb-4 text-lg font-semibold text-foreground">
-              Predictions
-            </h3>
-            <div className="space-y-3">
-              {event?.predictions.map((pred, index) => {
-                const { date, hours } = formatCustomDate(pred.createdAt);
-                const { status } = evaluatePrediction(pred, event);
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-secondary text-xs font-medium text-secondary-foreground">
-                        {getUserInitials(
-                          pred.user.firstName,
-                          pred.user.lastName,
+          {event.predictions.length > 0 && (
+            <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+              <h3 className="mb-4 text-lg font-semibold text-foreground">
+                Predictions
+              </h3>
+              <div className="space-y-3">
+                {event?.predictions.map((pred, index) => {
+                  const { date, hours } = formatCustomDate(pred.createdAt);
+                  const { status } = evaluatePrediction(pred, event);
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-secondary text-xs font-medium text-secondary-foreground">
+                          {getUserInitials(
+                            pred.user.firstName,
+                            pred.user.lastName,
+                          )}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-foreground">
+                            <Link href={`/users/${pred.user.id}`}>
+                              {pred.user.username
+                                ? pred.user.username
+                                : pred.user.firstName}
+                            </Link>
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {date} {hours}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary">
+                          {pred.value}
+                        </span>
+                        {isFinished && (
+                          <>
+                            {status.toLowerCase() === "correct" && (
+                              <CheckCircle2 className="h-4 w-4 text-primary" />
+                            )}
+                            {status.toLowerCase() === "incorrect" && (
+                              <XCircle className="h-4 w-4 text-destructive" />
+                            )}
+                            {status.toLowerCase() === "partial" && (
+                              <Circle className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </>
                         )}
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">
-                          <Link href={`/users/${pred.user.id}`}>
-                            {pred.user.username
-                              ? pred.user.username
-                              : pred.user.firstName}
-                          </Link>
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {date} {hours}
-                        </p>
-                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-primary">
-                        {pred.value}
-                      </span>
-                      {isFinished && (
-                        <>
-                          {status.toLowerCase() === "correct" && (
-                            <CheckCircle2 className="h-4 w-4 text-primary" />
-                          )}
-                          {status.toLowerCase() === "incorrect" && (
-                            <XCircle className="h-4 w-4 text-destructive" />
-                          )}
-                          {status.toLowerCase() === "partial" && (
-                            <Circle className="h-4 w-4 text-muted-foreground" />
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
