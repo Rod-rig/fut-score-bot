@@ -21,6 +21,7 @@ import { authOptions } from "@l/auth";
 import { formatCustomDate } from "@u/formatCustomDate";
 import { getUserInitials } from "@u/getUserInitials";
 import { calculateAverageScore } from "@u/calculateAverageScore";
+import { calculatePredictionPercentages } from "@u/calculatePredictionPercentages";
 import { evaluatePrediction } from "@u/evaluatePrediction";
 
 type EventWithPredictions = Prisma.EventGetPayload<{
@@ -63,6 +64,8 @@ export default async function Page({
   const { points, status } = evaluatePrediction(currentUserPrediction, event);
   const scores = event.predictions.map((p) => p.value);
   const averageScore = calculateAverageScore(scores);
+  const { homeWinPercentage, drawPercentage, awayWinPercentage } =
+    calculatePredictionPercentages(event.predictions);
   const { date, hours } = formatCustomDate(event.startDate);
   const isFinished = event.status === "FINISHED" && event.score;
   let home;
@@ -70,6 +73,7 @@ export default async function Page({
   if (isFinished) {
     [home, away] = event.score.split(":");
   }
+
   return (
     <>
       {/* Back Button */}
@@ -150,151 +154,145 @@ export default async function Page({
                 <p className="text-sm text-muted-foreground">Away</p>
               </div>
             </div>
+          </div>
 
-            {/* Betting Odds */}
-            <div className="rounded-xl border border-border/40 bg-card/50 p-4 sm:p-6">
+          {/* Prediction Distribution */}
+          {event.predictions.length > 0 && (
+            <div className="rounded-xl border border-border/40 bg-card/50 p-6">
               <h3 className="mb-6 text-lg font-semibold text-foreground">
-                Betting Odds
+                Prediction Distribution
               </h3>
-
-              {/* Match Result Odds (1X2) */}
-              <div className="mb-6">
-                <h4 className="mb-3 text-sm font-medium text-muted-foreground">
-                  Match Result
-                </h4>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="rounded-lg bg-secondary/50 p-4 text-center">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      Home Win (1)
-                    </p>
-                    <p className="text-xl font-bold text-primary">
-                      {event?.odd?.one}
-                    </p>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="rounded-lg bg-secondary/50 p-4 text-center">
+                  <div className="text-3xl font-bold text-primary">
+                    {homeWinPercentage}%
                   </div>
-                  <div className="rounded-lg bg-secondary/50 p-4 text-center">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      Draw (X)
-                    </p>
-                    <p className="text-xl font-bold text-foreground">
-                      {event?.odd?.x}
-                    </p>
+                  <p className="mt-1 text-sm text-muted-foreground">Home Win</p>
+                </div>
+                <div className="rounded-lg bg-secondary/50 p-4 text-center">
+                  <div className="text-3xl font-bold text-muted-foreground">
+                    {drawPercentage}%
                   </div>
-                  <div className="rounded-lg bg-secondary/50 p-4 text-center">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      Away Win (2)
-                    </p>
-                    <p className="text-xl font-bold text-primary">
-                      {event?.odd?.two}
-                    </p>
+                  <p className="mt-1 text-sm text-muted-foreground">Draw</p>
+                </div>
+                <div className="rounded-lg bg-secondary/50 p-4 text-center">
+                  <div className="text-3xl font-bold text-primary">
+                    {awayWinPercentage}%
                   </div>
+                  <p className="mt-1 text-sm text-muted-foreground">Away Win</p>
                 </div>
               </div>
-
-              {/* Correct Score Odds */}
-              <div>
-                <h4 className="mb-3 text-sm font-medium text-muted-foreground">
-                  Correct Score
-                </h4>
-                <div className="grid grid-cols-4 gap-2">
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">0:0</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.zeroZero}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">1:1</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.oneOne}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">2:2</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.twoTwo}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">1:0</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.oneZero}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">2:0</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.twoZero}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">3:0</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.threeZero}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">2:1</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.twoOne}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">3:1</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.threeOne}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">3:2</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.threeTwo}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">0:1</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.zeroOne}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">0:2</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.zeroTwo}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">0:3</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.zeroThree}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">1:2</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.oneTwo}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">1:3</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.oneThree}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">2:3</p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.twoThree}
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 text-center bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      Any Other
-                    </p>
-                    <p className="text-sm font-bold text-foreground">
-                      {event?.odd?.anyOther}
-                    </p>
-                  </div>
+              <div className="mt-4 h-3 overflow-hidden rounded-full bg-secondary">
+                <div className="flex h-full">
+                  <div
+                    className="bg-primary"
+                    style={{ width: `${homeWinPercentage}%` }}
+                  />
+                  <div
+                    className="bg-muted-foreground"
+                    style={{ width: `${drawPercentage}%` }}
+                  />
+                  <div
+                    className="bg-primary/60"
+                    style={{ width: `${awayWinPercentage}%` }}
+                  />
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Betting Odds */}
+          <div className="rounded-xl border border-border/40 bg-card/50 p-4 sm:p-6">
+            <h3 className="mb-6 text-lg font-semibold text-foreground">
+              Betting Odds
+            </h3>
+
+            {/* Match Result Odds (1X2) */}
+            <div className="mb-6">
+              <h4 className="mb-3 text-sm font-medium text-muted-foreground">
+                Match Result
+              </h4>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="rounded-lg bg-secondary/50 p-4 text-center">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Home Win (1)
+                  </p>
+                  <p className="text-xl font-bold text-primary">
+                    {event?.odd?.one}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-secondary/50 p-4 text-center">
+                  <p className="text-xs text-muted-foreground mb-1">Draw (X)</p>
+                  <p className="text-xl font-bold text-foreground">
+                    {event?.odd?.x}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-secondary/50 p-4 text-center">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Away Win (2)
+                  </p>
+                  <p className="text-xl font-bold text-primary">
+                    {event?.odd?.two}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Correct Score Odds */}
+            <div>
+              <h4 className="mb-3 text-sm font-medium text-muted-foreground">
+                Correct Score
+              </h4>
+              <div className="grid grid-cols-4 gap-2">
+                {[
+                  { score: "0:0", odds: event?.odd?.zeroZero },
+                  { score: "1:1", odds: event?.odd?.oneOne },
+                  { score: "2:2", odds: event?.odd?.twoTwo },
+                  { score: "1:0", odds: event?.odd?.oneZero },
+                  { score: "2:0", odds: event?.odd?.twoZero },
+                  { score: "3:0", odds: event?.odd?.threeZero },
+                  { score: "2:1", odds: event?.odd?.twoOne },
+                  { score: "3:1", odds: event?.odd?.threeOne },
+                  { score: "3:2", odds: event?.odd?.threeTwo },
+                  { score: "0:1", odds: event?.odd?.zeroOne },
+                  { score: "0:2", odds: event?.odd?.zeroTwo },
+                  { score: "0:3", odds: event?.odd?.zeroThree },
+                  { score: "1:2", odds: event?.odd?.oneTwo },
+                  { score: "1:3", odds: event?.odd?.oneThree },
+                  { score: "2:3", odds: event?.odd?.twoThree },
+                  { score: "Any Other", odds: event?.odd?.anyOther },
+                ].map((item) => {
+                  const isWinningScore =
+                    isFinished &&
+                    (item.score === event.score ||
+                      ((home > 3 || away > 3) && item.score === "Any Other"));
+                  return (
+                    <div
+                      key={item.score}
+                      className={`relative rounded-lg p-3 text-center transition-colors ${
+                        isWinningScore
+                          ? "border border-primary bg-primary/15 ring-1 ring-primary/40"
+                          : "bg-secondary/50"
+                      }`}
+                    >
+                      {isWinningScore && (
+                        <span className="absolute right-2 top-1 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                          Won
+                        </span>
+                      )}
+                      <p
+                        className={`mb-1 text-xs ${isWinningScore ? "font-semibold text-primary" : "text-muted-foreground"}`}
+                      >
+                        {item.score}
+                      </p>
+                      <p
+                        className={`text-sm font-bold ${isWinningScore ? "text-primary" : "text-foreground"}`}
+                      >
+                        {item.odds}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -434,62 +432,64 @@ export default async function Page({
           </div>
 
           {/* Recent Predictions */}
-          <div className="rounded-xl border border-border/40 bg-card/50 p-6">
-            <h3 className="mb-4 text-lg font-semibold text-foreground">
-              Predictions
-            </h3>
-            <div className="space-y-3">
-              {event?.predictions.map((pred, index) => {
-                const { date, hours } = formatCustomDate(pred.createdAt);
-                const { status } = evaluatePrediction(pred, event);
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-secondary text-xs font-medium text-secondary-foreground">
-                        {getUserInitials(
-                          pred.user.firstName,
-                          pred.user.lastName,
+          {event.predictions.length > 0 && (
+            <div className="rounded-xl border border-border/40 bg-card/50 p-6">
+              <h3 className="mb-4 text-lg font-semibold text-foreground">
+                Predictions
+              </h3>
+              <div className="space-y-3">
+                {event?.predictions.map((pred, index) => {
+                  const { date, hours } = formatCustomDate(pred.createdAt);
+                  const { status } = evaluatePrediction(pred, event);
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-secondary text-xs font-medium text-secondary-foreground">
+                          {getUserInitials(
+                            pred.user.firstName,
+                            pred.user.lastName,
+                          )}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-foreground">
+                            <Link href={`/users/${pred.user.id}`}>
+                              {pred.user.username
+                                ? pred.user.username
+                                : pred.user.firstName}
+                            </Link>
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {date} {hours}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary">
+                          {pred.value}
+                        </span>
+                        {isFinished && (
+                          <>
+                            {status.toLowerCase() === "correct" && (
+                              <CheckCircle2 className="h-4 w-4 text-primary" />
+                            )}
+                            {status.toLowerCase() === "incorrect" && (
+                              <XCircle className="h-4 w-4 text-destructive" />
+                            )}
+                            {status.toLowerCase() === "partial" && (
+                              <Circle className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </>
                         )}
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">
-                          <Link href={`/users/${pred.user.id}`}>
-                            {pred.user.username
-                              ? pred.user.username
-                              : pred.user.firstName}
-                          </Link>
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {date} {hours}
-                        </p>
-                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-primary">
-                        {pred.value}
-                      </span>
-                      {isFinished && (
-                        <>
-                          {status.toLowerCase() === "correct" && (
-                            <CheckCircle2 className="h-4 w-4 text-primary" />
-                          )}
-                          {status.toLowerCase() === "incorrect" && (
-                            <XCircle className="h-4 w-4 text-destructive" />
-                          )}
-                          {status.toLowerCase() === "partial" && (
-                            <Circle className="h-4 w-4 text-muted-foreground" />
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
