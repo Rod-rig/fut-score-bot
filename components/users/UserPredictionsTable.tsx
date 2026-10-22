@@ -107,8 +107,10 @@ export default function UserPredictionsTable({
       </div>
       <div className="flex items-center justify-between border-t border-border/40 px-6 py-4">
         <p className="text-sm text-muted-foreground">
-          Showing {(safePredictionPage - 1) * take + 1}-
-          {Math.min(safePredictionPage * take, count)} of {count} predictions
+          <span className="hidden sm:inline">Showing</span>{" "}
+          {(safePredictionPage - 1) * take + 1}-
+          {Math.min(safePredictionPage * take, count)} of {count}{" "}
+          <span className="hidden sm:inline">predictions</span>
         </p>
         <div className="flex items-center gap-2">
           <Button
