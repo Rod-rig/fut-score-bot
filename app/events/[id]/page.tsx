@@ -28,6 +28,27 @@ type EventWithPredictions = Prisma.EventGetPayload<{
   include: { predictions: { include: { user: true } }; odd: true };
 }> | null;
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  if (!id || isNaN(parseInt(id))) {
+    return { title: "Event Details | FutScore" };
+  }
+
+  const event = await prisma.event.findUnique({
+    where: { id: parseInt(id) },
+    select: { home: true, away: true },
+  });
+
+  const title = event ? `${event.home} vs ${event.away}` : "Event Details";
+
+  return { title: `${title} | FutScore` };
+}
+
 export default async function Page({
   params,
 }: {

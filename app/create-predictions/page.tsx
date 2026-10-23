@@ -4,6 +4,10 @@ import { authOptions } from "@l/auth";
 import Form from "./Form";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Upcoming Matches | FutScore",
+};
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
 

@@ -4,6 +4,10 @@ import { Header } from "./Header";
 import { Podium } from "./Podium";
 import { getUsersByFilter } from "./utils";
 
+export const metadata = {
+  title: "Leaderboard | FutScore",
+};
+
 export default async function Page({
   searchParams,
 }: {

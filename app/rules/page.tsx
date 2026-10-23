@@ -17,7 +17,8 @@ const scoringRules = [
     icon: CheckCircle2,
     title: "Perfect Score",
     points: "Exact score points",
-    description: "Predict the exact final score to get the points specified for those odds associated with the score.",
+    description:
+      "Predict the exact final score to get the points specified for those odds associated with the score.",
     example: "Prediction: 2-1 | Result: 2-1",
     color: "text-green-500",
   },
@@ -25,7 +26,8 @@ const scoringRules = [
     icon: Star,
     title: "Correct Outcome",
     points: "Outcome points",
-    description: "Predict the correct winner or draw, but wrong score to get the points associated with the odds for that outcome.",
+    description:
+      "Predict the correct winner or draw, but wrong score to get the points associated with the odds for that outcome.",
     example: "Prediction: 2-0 | Result: 3-1 (Home Win)",
     color: "text-blue-500",
   },
@@ -49,9 +51,8 @@ const generalRules = [
   {
     icon: Target,
     title: "One Prediction Per Match",
-    description:
-      "Users can only submit one prediction per match.",
-      // "Users can only submit one prediction per match. However, predictions can be edited until the deadline.",
+    description: "Users can only submit one prediction per match.",
+    // "Users can only submit one prediction per match. However, predictions can be edited until the deadline.",
   },
   {
     icon: AlertCircle,
@@ -72,6 +73,10 @@ const generalRules = [
       "Multiple accounts are prohibited. Violations result in permanent bans and removal from leaderboards.",
   },
 ];
+
+export const metadata = {
+  title: "Rules | FutScore",
+};
 
 export default async function Page() {
   return (
