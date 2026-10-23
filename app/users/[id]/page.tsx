@@ -12,6 +12,27 @@ type UserWithPredictions = Prisma.UserGetPayload<{
   };
 }>;
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const user = await prisma.user.findUnique({
+    where: { id },
+    select: { firstName: true, lastName: true },
+  });
+
+  const name = user
+    ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
+    : "User Profile";
+
+  return {
+    title: `${name} | FutScore`,
+  };
+}
+
 export default async function Page({
   params,
 }: {
