@@ -9,6 +9,7 @@ export const fetchMatches = async (id) => {
         predictions: { none: { userId: { equals: `${id}` } } },
       },
       include: { odd: true },
+      orderBy: { startDate: "asc" },
     });
   } catch (error) {
     console.log(error);
