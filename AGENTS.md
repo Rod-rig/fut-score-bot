@@ -4,10 +4,10 @@
 
 **fut-score-bot** is a full-stack **football prediction platform** with dual frontends (web + Telegram bot). Users make score predictions, earn points based on accuracy, and compete on leaderboards.
 
-**Architecture**: Next.js 15 (frontend) + Express (some older routes) + Telegram Bot API + PostgreSQL + Prisma ORM
+**Architecture**: Next.js 16 (frontend) + Express (some older routes) + Telegram Bot API + PostgreSQL + Prisma ORM
 
 ### Directory Structure
-- **`/app`** – Next.js pages and Server Actions (15.2.4)
+- **`/app`** – Next.js App Router pages, route handlers, and Server Actions
 - **`/src`** – Legacy Node.js code + Telegram bot (`/src/bot`)
 - **`/components`** – React UI: Radix UI primitives + custom layouts
 - **`/lib`** – Core: Prisma singleton, NextAuth config
@@ -33,7 +33,7 @@ export const prisma = new PrismaClient();
 - **Provider**: NextAuth with **JWT strategy** (not database sessions)
 - **Config**: `/lib/auth.ts` with `CredentialsProvider`
 - **Token payload**: `{ id, role, username, email }`
-- **Protected route**: `/predictions/:path*` via `/middleware.ts`
+- **Route matcher**: `proxy.ts` matches `/predictions/:path*`, but currently only returns `NextResponse.next()`; it does not authenticate users. Enforce authorization in the page/route or update the proxy before treating this path as protected.
 - **Sign-in redirect**: `/login` (redirects unauthenticated users)
 - **Key callback**: `session` callback adds custom fields to `session.user`
 
@@ -88,7 +88,7 @@ export const createPrediction = async (payload, userId) => {
 };
 ```
 **Key points**:
-- Always `"use server"` directive
+- Put `"use server"` at the top of files that export Server Actions
 - Use `revalidatePath` for ISR updates (not redirect)
 - Log all user actions before returning
 
@@ -258,7 +258,7 @@ const match = await bcryptjs.compare(password, hashedPassword);
 
 - **TypeScript strict mode** enabled: `"strict": true`
 - **Null checks**: `strictNullChecks: true`
-- **No build errors ignored** in `next.config.ts` (flag for cleanup)
+- **Build type errors are ignored** in `next.config.ts` (`typescript.ignoreBuildErrors: true`); a successful Next.js build does not prove TypeScript is clean.
 - **ESLint config**: React-app preset with max-warnings: 0
 
 ### Type Exports
@@ -297,6 +297,17 @@ export type FeatureName = z.infer<typeof FeatureSchema>;
 
 ---
 
+## Agent Working Notes
+
+- Treat `package.json` as the source of truth for available scripts and dependency versions. This guide can drift; verify commands and framework behavior before relying on it. For example, the current scripts include `next:dev`, `next:build`, `next:start`, `next:lint`, `start:bot`, `prettier:check`, and `prettier:write`.
+- Never read, print, or commit `.env` files or copy their values into logs, documentation, or tool output. Use environment variable names in examples and keep secrets out of client-side code.
+- Telegram bot credentials must come from `process.env.TELEGRAM_TOKEN`; never hard-code a token or include a placeholder fallback. Load local variables with dotenv as the bot entry point does, and fail clearly at startup when the required token is missing. Keep `.env` and deployment env files out of version control.
+- Database schema or migration changes affect both the web app and the Telegram bot, which share the same PostgreSQL database. Review the Prisma schema and existing migration workflow before changing either side.
+- Prefer making focused edits and preserving unrelated user changes in the working tree. Before editing, check `git status`; do not revert or overwrite existing changes.
+- When changing authorization, scoring, or prediction persistence, check both web and bot call paths. These behaviors are shared platform rules, even when an implementation starts in one frontend.
+
+---
+
 ## Quick Reference Commands
 
 ```bash
@@ -320,5 +331,5 @@ npm run next:build && npm run next:start
 
 ---
 
-**Last Updated**: Aug 2026
+**Last reviewed**: Oct 2026
 
