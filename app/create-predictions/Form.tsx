@@ -20,7 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from "@c/ui/form";
-import Flag from "@c/shared/Flag";
+import Crest from "@c/shared/Crest";
 import { Badge } from "@c/ui/badge";
 import { formatCustomDate } from "@u/formatCustomDate";
 import { createPrediction } from "./actions";
@@ -106,8 +106,10 @@ export default function Form({
                 {/* Teams */}
                 <div className="flex flex-1 items-center justify-center gap-3 sm:gap-6 flex-wrap sm:flex-nowrap">
                   {/* Home Team */}
-                  <div className="flex flex-1 items-center justify-end gap-2 sm:gap-4">
-                    <Flag name={match.flagHome} />
+                  <div className="flex flex-1 items-center justify-end gap-1">
+                    <div className="flex items-center justify-center w-10 h-10">
+                      <Crest name={match.home} size={5} />
+                    </div>
                     <span className="text-right text-sm font-medium text-foreground sm:text-base">
                       {match.home}
                     </span>
@@ -220,11 +222,13 @@ export default function Form({
                     />
                   </div>
                   {/* Away Team */}
-                  <div className="sm:order-2 flex flex-1 items-center gap-2 sm:gap-4">
+                  <div className="sm:order-2 flex flex-1 items-center gap-1">
                     <span className="text-sm font-medium text-foreground sm:text-base">
                       {match.away}
                     </span>
-                    <Flag name={match.flagAway} />
+                    <div className="flex items-center justify-center w-10 h-10">
+                      <Crest name={match.away} size={5} />
+                    </div>
                   </div>
                 </div>
 
