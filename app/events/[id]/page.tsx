@@ -15,7 +15,7 @@ import { getServerSession } from "next-auth/next";
 import { notFound, redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
 import { Badge } from "@c/ui/badge";
-import Flag from "@c/shared/Flag";
+import Crest from "@c/shared/Crest";
 import { prisma } from "@l/prisma";
 import { authOptions } from "@l/auth";
 import { formatCustomDate } from "@u/formatCustomDate";
@@ -129,7 +129,7 @@ export default async function Page({
               {/* Home Team */}
               <div className="flex-1 text-center">
                 <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-secondary text-2xl font-bold text-secondary-foreground">
-                  <Flag name={event.flagHome} size={40} />
+                  <Crest name={event.home} size={50} />
                 </div>
                 <h2 className="text-xl font-bold text-foreground">
                   {event.home}
@@ -167,7 +167,7 @@ export default async function Page({
               {/* Away Team */}
               <div className="flex-1 text-center">
                 <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-secondary text-2xl font-bold text-secondary-foreground">
-                  <Flag name={event.flagAway} size={40} />
+                  <Crest name={event.away} size={50} />
                 </div>
                 <h2 className="text-xl font-bold text-foreground">
                   {event.away}
