@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Prisma } from "@prisma/client";
 import UserProfileStats from "@c/users/UserProfileStats";
 import UserPredictionsTable from "@c/users/UserPredictionsTable";
+import UserRoiChart from "@c/users/UserRoiChart";
 import { prisma } from "@l/prisma";
 import { getUserInitials } from "@u/getUserInitials";
 
@@ -89,6 +90,13 @@ export default async function Page({
       </div>
 
       <UserProfileStats user={user} count={count} />
+
+      {user.predictions.length > 0 && (
+        <UserRoiChart
+          predictions={user.predictions}
+          currentRoi={user.results?.roi ?? 0}
+        />
+      )}
 
       {user.predictions.length > 0 && (
         <UserPredictionsTable predictions={user.predictions} count={count} />
