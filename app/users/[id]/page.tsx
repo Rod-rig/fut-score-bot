@@ -92,14 +92,13 @@ export default async function Page({
       <UserProfileStats user={user} count={count} />
 
       {user.predictions.length > 0 && (
-        <UserRoiChart
-          predictions={user.predictions}
-          currentRoi={user.results?.roi ?? 0}
-        />
-      )}
-
-      {user.predictions.length > 0 && (
-        <UserPredictionsTable predictions={user.predictions} count={count} />
+        <>
+          <UserRoiChart
+            predictions={user.predictions}
+            currentRoi={user.results?.roi ?? 0}
+          />
+          <UserPredictionsTable predictions={user.predictions} count={count} />
+        </>
       )}
     </>
   );

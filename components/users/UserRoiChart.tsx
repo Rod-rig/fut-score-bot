@@ -30,8 +30,9 @@ export default function UserRoiChart({
       oneXTwoCount: 0,
       balance: 0,
     };
+    const copiedPredictions = [...predictions];
 
-    return predictions
+    return copiedPredictions
       .reverse()
       .reduce<{
         stats: typeof initialStats;
